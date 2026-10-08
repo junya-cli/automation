@@ -1,0 +1,191 @@
+<title>30日ワーク ローンチ配信台本</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700&family=Noto+Sans+JP:wght@400;500;700&display=swap">
+<style>
+/* 1カラムの台本。左に日付の縦線、右にLINEの吹き出し。配色はワークブックPDFと同じ */
+:root {
+  --bg: #F7F3EA;
+  --paper: #FFFDF8;
+  --ink: #2F3047;
+  --sub: #6B6A80;
+  --line: #E6DFCF;
+  --navy: #283265;
+  --gold: #A9813A;
+  --lav: #6D5BB0;
+  --bubble: #FFFFFF;
+  --bubble-line: #E3DDF2;
+  --chip: #EEEAF8;
+  --todo-bg: #FFF1CC;
+  --todo-ink: #8A5A00;
+  --ok: #2A8B7F;
+  --p-edu: #3A74C2; --p-sell: #C2862A; --p-close: #C25B6A; --p-c: #2A8B7F; --p-misc: #8064BF;
+  --shadow: 0 1px 2px rgba(40,50,101,.06), 0 6px 18px rgba(40,50,101,.06);
+  --f-display: 'Zen Maru Gothic', 'Hiragino Maru Gothic ProN', 'Noto Sans JP', sans-serif;
+  --f-body: 'Noto Sans JP', 'Hiragino Sans', 'Yu Gothic', sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #15172A; --paper: #1E2138; --ink: #ECEAF4; --sub: #A9A8C0; --line: #33365A;
+    --navy: #AEB8F2; --gold: #E1BE7C; --lav: #C2B6F3; --bubble: #262A47; --bubble-line: #3A3E66; --chip: #2A2647;
+    --todo-bg: #3A2F12; --todo-ink: #F3D27A; --ok: #6FD3C3;
+    --p-edu: #7FA9E8; --p-sell: #E2AE5E; --p-close: #EE8C99; --p-c: #6FD3C3; --p-misc: #B8A4EC;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 6px 18px rgba(0,0,0,.25);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #15172A; --paper: #1E2138; --ink: #ECEAF4; --sub: #A9A8C0; --line: #33365A;
+  --navy: #AEB8F2; --gold: #E1BE7C; --lav: #C2B6F3; --bubble: #262A47; --bubble-line: #3A3E66; --chip: #2A2647;
+  --todo-bg: #3A2F12; --todo-ink: #F3D27A; --ok: #6FD3C3;
+  --p-edu: #7FA9E8; --p-sell: #E2AE5E; --p-close: #EE8C99; --p-c: #6FD3C3; --p-misc: #B8A4EC;
+  --shadow: 0 1px 2px rgba(0,0,0,.3), 0 6px 18px rgba(0,0,0,.25);
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--f-body); font-size: 15px; line-height: 1.8; }
+.wrap { max-width: 780px; margin: 0 auto; padding-inline: 16px; padding-block: 28px 72px; display: flex; flex-direction: column; gap: 24px; }
+h1, h2, h3 { font-family: var(--f-display); font-weight: 700; color: var(--navy); text-wrap: balance; word-break: auto-phrase; margin: 0; }
+header .eyebrow { font-family: var(--f-display); color: var(--gold); letter-spacing: .14em; font-size: 13px; }
+header h1 { font-size: clamp(22px, 5vw, 30px); line-height: 1.4; }
+header p { color: var(--sub); margin: 8px 0 0; }
+.tabs { display: flex; gap: 8px; flex-wrap: wrap; position: sticky; top: env(safe-area-inset-top, 0px); background: var(--bg); padding-block: 8px; z-index: 2; }
+.tabs button { appearance: none; border: 1.5px solid var(--line); background: var(--paper); color: var(--ink); border-radius: 999px; padding: 6px 14px; font-family: var(--f-display); font-weight: 700; font-size: 14px; cursor: pointer; }
+.tabs button[aria-pressed="true"] { background: var(--navy); color: var(--paper); border-color: var(--navy); }
+.overview { background: var(--paper); border: 1px solid var(--line); border-radius: 16px; padding: 16px; box-shadow: var(--shadow); overflow-x: auto; }
+.overview table { border-collapse: collapse; width: 100%; min-width: 520px; font-size: 14px; }
+.overview th, .overview td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+.overview th { font-family: var(--f-display); color: var(--sub); font-weight: 700; font-size: 12px; letter-spacing: .08em; }
+.overview td.id { font-family: var(--f-display); font-weight: 700; white-space: nowrap; }
+.overview a { color: inherit; text-decoration: none; border-bottom: 1px dashed var(--line); }
+.tl { display: flex; flex-direction: column; gap: 18px; }
+.msg { display: grid; grid-template-columns: 14px 1fr; gap: 14px; }
+.rail { position: relative; }
+.rail::before { content: ""; position: absolute; left: 6px; top: 22px; bottom: -22px; width: 2px; background: var(--line); }
+.rail i { position: absolute; left: 0; top: 10px; width: 14px; height: 14px; border-radius: 50%; background: var(--pc); box-shadow: 0 0 0 3px var(--bg); }
+.card { background: var(--paper); border: 1px solid var(--line); border-radius: 16px; padding: 16px; box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.card .head { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: baseline; }
+.badge { font-family: var(--f-display); font-weight: 700; color: var(--paper); background: var(--pc); border-radius: 8px; padding: 0 9px; font-size: 14px; }
+.card h3 { font-size: 18px; }
+.meta { font-size: 13px; color: var(--sub); display: flex; flex-wrap: wrap; gap: 4px 14px; }
+.meta b { color: var(--ink); font-weight: 500; }
+.why { font-size: 13.5px; color: var(--sub); border-left: 3px solid var(--pc); padding-left: 10px; }
+.bubbles { display: flex; flex-direction: column; gap: 10px; }
+.bubble { position: relative; background: var(--bubble); border: 1.5px solid var(--bubble-line); border-radius: 18px 18px 18px 6px; padding: 12px 14px 10px; }
+.bubble pre { margin: 0; white-space: pre-wrap; word-break: break-word; font-family: var(--f-body); font-size: 14.5px; line-height: 1.75; color: var(--ink); }
+.bubble .bar { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-top: 8px; }
+.bubble .n { font-family: var(--f-display); font-size: 12px; color: var(--sub); }
+.row { display: inline-flex; gap: 8px; align-items: center; }
+.mark { background: var(--todo-bg); color: var(--todo-ink); border-radius: 4px; padding: 0 3px; }
+button.copy { appearance: none; border: 0; cursor: pointer; background: var(--navy); color: var(--paper); font-family: var(--f-display); font-weight: 700; font-size: 13px; border-radius: 999px; padding: 6px 14px; }
+button.copy:focus-visible, .tabs button:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+.done { font-size: 12px; color: var(--ok); }
+.done.warn { color: var(--todo-ink); }
+.img { display: flex; gap: 12px; align-items: center; }
+.img img { width: 140px; max-width: 40%; height: auto; border-radius: 8px; border: 1px solid var(--line); }
+.img span { font-size: 13px; color: var(--sub); }
+.memo { font-size: 13px; background: var(--chip); border-radius: 10px; padding: 8px 12px; }
+.memo b { font-family: var(--f-display); color: var(--lav); margin-right: 6px; }
+@media (max-width: 480px) { .msg { grid-template-columns: 10px 1fr; gap: 10px; } .rail i { width: 10px; height: 10px; } .rail::before { left: 4px; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">ローンチ配信台本</div>
+    <h1>30日ワーク 第1期「一緒に始める30日」</h1>
+    <p>LINEに貼る文面を、吹き出しごとにコピーできます。日付は例（給料日25日・第1期スタート15日）。黄色の【】は差し替える所です。</p>
+  </header>
+
+  <nav class="tabs" id="tabs" aria-label="表示の切り替え"></nav>
+
+  <section class="overview" id="overview" aria-label="配信の一覧"></section>
+  <section class="tl" id="tl" aria-label="配信の文面"></section>
+</div>
+
+<script>
+const DATA = /*__DATA__*/null;
+const PC = { 'はじめ': 'var(--p-misc)', '教育': 'var(--p-edu)', '予告': 'var(--p-edu)', '販売': 'var(--p-sell)', '締め切り': 'var(--p-close)', 'お礼': 'var(--p-misc)', '第1期': 'var(--p-c)', 'X': 'var(--navy)' };
+const VIEWS = [['all', 'すべて'], ['launch', 'LINE（ローンチ）'], ['c', '購入者LINE（第1期）'], ['x', 'X投稿']];
+let view = 'all';
+try { view = localStorage.getItem('launch-view') || 'all'; } catch (e) {}
+
+function esc(s) { return String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])); }
+function hl(s) { return esc(s).replace(/【[^】]*】/g, m => `<span class="mark">${m}</span>`); }
+
+async function copy(text, el) {
+  try { await navigator.clipboard.writeText(text); el.textContent = 'コピーしました'; el.classList.remove('warn'); }
+  catch (e) {
+    const pre = el.closest('.bubble').querySelector('pre');
+    const r = document.createRange(); r.selectNodeContents(pre);
+    const s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+    let ok = false; try { ok = document.execCommand('copy'); } catch (_) {}
+    el.textContent = ok ? 'コピーしました' : '選択しました。Ctrl+C（⌘+C）でコピー';
+    el.classList.toggle('warn', !ok);
+  }
+}
+
+function bubbleEl(text, label) {
+  const b = document.createElement('div');
+  b.className = 'bubble';
+  b.innerHTML = `<pre>${hl(text)}</pre><div class="bar"><span class="n">${esc(label)}・${text.length}字</span><span class="row"><span class="done" role="status"></span> <button class="copy" type="button">コピー</button></span></div>`;
+  b.querySelector('button').addEventListener('click', () => copy(text, b.querySelector('.done')));
+  return b;
+}
+
+function msgEl(m) {
+  const wrap = document.createElement('article');
+  wrap.className = 'msg';
+  wrap.id = 'm-' + m.id;
+  wrap.style.setProperty('--pc', PC[m.phase] || 'var(--navy)');
+  const card = document.createElement('div');
+  card.className = 'card';
+  card.innerHTML = `<div class="head"><span class="badge">${esc(m.id)}</span><h3>${esc(m.title)}</h3></div>
+    <div class="meta"><span>いつ <b>${esc(m.when)}</b></span><span>どこ <b>${esc(m.where)}</b></span></div>
+    <div class="why">${esc(m.purpose)}</div>`;
+  if (m.image) {
+    const d = document.createElement('div');
+    d.className = 'img';
+    d.innerHTML = `<img src="images/${esc(m.image)}" alt="${esc(m.image)}" loading="lazy"><span>画像：${esc(m.image)}<br>（noteの貼り付けキットと同じ画像）</span>`;
+    card.appendChild(d);
+  }
+  const bs = document.createElement('div');
+  bs.className = 'bubbles';
+  m.bubbles.forEach((t, i) => bs.appendChild(bubbleEl(t, '吹き出し' + (i + 1))));
+  card.appendChild(bs);
+  if (m.memo) {
+    const memo = document.createElement('div');
+    memo.className = 'memo';
+    memo.innerHTML = `<b>メモ</b>${hl(m.memo)}`;
+    card.appendChild(memo);
+  }
+  wrap.innerHTML = '<div class="rail"><i></i></div>';
+  wrap.appendChild(card);
+  return wrap;
+}
+
+function xEl(p, i) {
+  return msgEl({ id: 'X' + (i + 1), title: p.kind, when: p.when, where: 'X（旧Twitter）', phase: 'X', purpose: 'LINEへの登録と、発売・締め切りのお知らせ', bubbles: [p.text], image: p.image, memo: '' });
+}
+
+function render() {
+  const tabs = document.getElementById('tabs');
+  tabs.innerHTML = '';
+  VIEWS.forEach(([k, label]) => {
+    const b = document.createElement('button');
+    b.type = 'button'; b.textContent = label; b.setAttribute('aria-pressed', String(view === k));
+    b.addEventListener('click', () => { view = k; try { localStorage.setItem('launch-view', k); } catch (e) {} render(); });
+    tabs.appendChild(b);
+  });
+  const line = DATA.line.filter(m => view === 'all' || (view === 'launch' && m.phase !== '第1期') || (view === 'c' && m.phase === '第1期'));
+  const xs = (view === 'all' || view === 'x') ? DATA.x : [];
+  const ov = document.getElementById('overview');
+  const rows = line.map(m => `<tr><td class="id" style="color:${PC[m.phase]}">${esc(m.id)}</td><td>${esc(m.when)}</td><td><a href="#m-${esc(m.id)}">${esc(m.title)}</a></td><td>${esc(m.where)}</td></tr>`)
+    .concat(xs.map((p, i) => `<tr><td class="id">X${i + 1}</td><td>${esc(p.when)}</td><td><a href="#m-X${i + 1}">${esc(p.kind)}</a></td><td>X</td></tr>`)).join('');
+  ov.innerHTML = `<table><thead><tr><th>ID</th><th>いつ</th><th>内容</th><th>どこ</th></tr></thead><tbody>${rows}</tbody></table>`;
+  const tl = document.getElementById('tl');
+  tl.innerHTML = '';
+  line.forEach(m => tl.appendChild(msgEl(m)));
+  xs.forEach((p, i) => tl.appendChild(xEl(p, i)));
+}
+render();
+</script>

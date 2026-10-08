@@ -1,0 +1,191 @@
+<title>30日ワーク ローンチ配信台本</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700&family=Noto+Sans+JP:wght@400;500;700&display=swap">
+<style>
+/* 1カラムの台本。左に日付の縦線、右にLINEの吹き出し。配色はワークブックPDFと同じ */
+:root {
+  --bg: #F7F3EA;
+  --paper: #FFFDF8;
+  --ink: #2F3047;
+  --sub: #6B6A80;
+  --line: #E6DFCF;
+  --navy: #283265;
+  --gold: #A9813A;
+  --lav: #6D5BB0;
+  --bubble: #FFFFFF;
+  --bubble-line: #E3DDF2;
+  --chip: #EEEAF8;
+  --todo-bg: #FFF1CC;
+  --todo-ink: #8A5A00;
+  --ok: #2A8B7F;
+  --p-edu: #3A74C2; --p-sell: #C2862A; --p-close: #C25B6A; --p-c: #2A8B7F; --p-misc: #8064BF;
+  --shadow: 0 1px 2px rgba(40,50,101,.06), 0 6px 18px rgba(40,50,101,.06);
+  --f-display: 'Zen Maru Gothic', 'Hiragino Maru Gothic ProN', 'Noto Sans JP', sans-serif;
+  --f-body: 'Noto Sans JP', 'Hiragino Sans', 'Yu Gothic', sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #15172A; --paper: #1E2138; --ink: #ECEAF4; --sub: #A9A8C0; --line: #33365A;
+    --navy: #AEB8F2; --gold: #E1BE7C; --lav: #C2B6F3; --bubble: #262A47; --bubble-line: #3A3E66; --chip: #2A2647;
+    --todo-bg: #3A2F12; --todo-ink: #F3D27A; --ok: #6FD3C3;
+    --p-edu: #7FA9E8; --p-sell: #E2AE5E; --p-close: #EE8C99; --p-c: #6FD3C3; --p-misc: #B8A4EC;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 6px 18px rgba(0,0,0,.25);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #15172A; --paper: #1E2138; --ink: #ECEAF4; --sub: #A9A8C0; --line: #33365A;
+  --navy: #AEB8F2; --gold: #E1BE7C; --lav: #C2B6F3; --bubble: #262A47; --bubble-line: #3A3E66; --chip: #2A2647;
+  --todo-bg: #3A2F12; --todo-ink: #F3D27A; --ok: #6FD3C3;
+  --p-edu: #7FA9E8; --p-sell: #E2AE5E; --p-close: #EE8C99; --p-c: #6FD3C3; --p-misc: #B8A4EC;
+  --shadow: 0 1px 2px rgba(0,0,0,.3), 0 6px 18px rgba(0,0,0,.25);
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--f-body); font-size: 15px; line-height: 1.8; }
+.wrap { max-width: 780px; margin: 0 auto; padding-inline: 16px; padding-block: 28px 72px; display: flex; flex-direction: column; gap: 24px; }
+h1, h2, h3 { font-family: var(--f-display); font-weight: 700; color: var(--navy); text-wrap: balance; word-break: auto-phrase; margin: 0; }
+header .eyebrow { font-family: var(--f-display); color: var(--gold); letter-spacing: .14em; font-size: 13px; }
+header h1 { font-size: clamp(22px, 5vw, 30px); line-height: 1.4; }
+header p { color: var(--sub); margin: 8px 0 0; }
+.tabs { display: flex; gap: 8px; flex-wrap: wrap; position: sticky; top: env(safe-area-inset-top, 0px); background: var(--bg); padding-block: 8px; z-index: 2; }
+.tabs button { appearance: none; border: 1.5px solid var(--line); background: var(--paper); color: var(--ink); border-radius: 999px; padding: 6px 14px; font-family: var(--f-display); font-weight: 700; font-size: 14px; cursor: pointer; }
+.tabs button[aria-pressed="true"] { background: var(--navy); color: var(--paper); border-color: var(--navy); }
+.overview { background: var(--paper); border: 1px solid var(--line); border-radius: 16px; padding: 16px; box-shadow: var(--shadow); overflow-x: auto; }
+.overview table { border-collapse: collapse; width: 100%; min-width: 520px; font-size: 14px; }
+.overview th, .overview td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+.overview th { font-family: var(--f-display); color: var(--sub); font-weight: 700; font-size: 12px; letter-spacing: .08em; }
+.overview td.id { font-family: var(--f-display); font-weight: 700; white-space: nowrap; }
+.overview a { color: inherit; text-decoration: none; border-bottom: 1px dashed var(--line); }
+.tl { display: flex; flex-direction: column; gap: 18px; }
+.msg { display: grid; grid-template-columns: 14px 1fr; gap: 14px; }
+.rail { position: relative; }
+.rail::before { content: ""; position: absolute; left: 6px; top: 22px; bottom: -22px; width: 2px; background: var(--line); }
+.rail i { position: absolute; left: 0; top: 10px; width: 14px; height: 14px; border-radius: 50%; background: var(--pc); box-shadow: 0 0 0 3px var(--bg); }
+.card { background: var(--paper); border: 1px solid var(--line); border-radius: 16px; padding: 16px; box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.card .head { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: baseline; }
+.badge { font-family: var(--f-display); font-weight: 700; color: var(--paper); background: var(--pc); border-radius: 8px; padding: 0 9px; font-size: 14px; }
+.card h3 { font-size: 18px; }
+.meta { font-size: 13px; color: var(--sub); display: flex; flex-wrap: wrap; gap: 4px 14px; }
+.meta b { color: var(--ink); font-weight: 500; }
+.why { font-size: 13.5px; color: var(--sub); border-left: 3px solid var(--pc); padding-left: 10px; }
+.bubbles { display: flex; flex-direction: column; gap: 10px; }
+.bubble { position: relative; background: var(--bubble); border: 1.5px solid var(--bubble-line); border-radius: 18px 18px 18px 6px; padding: 12px 14px 10px; }
+.bubble pre { margin: 0; white-space: pre-wrap; word-break: break-word; font-family: var(--f-body); font-size: 14.5px; line-height: 1.75; color: var(--ink); }
+.bubble .bar { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-top: 8px; }
+.bubble .n { font-family: var(--f-display); font-size: 12px; color: var(--sub); }
+.row { display: inline-flex; gap: 8px; align-items: center; }
+.mark { background: var(--todo-bg); color: var(--todo-ink); border-radius: 4px; padding: 0 3px; }
+button.copy { appearance: none; border: 0; cursor: pointer; background: var(--navy); color: var(--paper); font-family: var(--f-display); font-weight: 700; font-size: 13px; border-radius: 999px; padding: 6px 14px; }
+button.copy:focus-visible, .tabs button:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+.done { font-size: 12px; color: var(--ok); }
+.done.warn { color: var(--todo-ink); }
+.img { display: flex; gap: 12px; align-items: center; }
+.img img { width: 140px; max-width: 40%; height: auto; border-radius: 8px; border: 1px solid var(--line); }
+.img span { font-size: 13px; color: var(--sub); }
+.memo { font-size: 13px; background: var(--chip); border-radius: 10px; padding: 8px 12px; }
+.memo b { font-family: var(--f-display); color: var(--lav); margin-right: 6px; }
+@media (max-width: 480px) { .msg { grid-template-columns: 10px 1fr; gap: 10px; } .rail i { width: 10px; height: 10px; } .rail::before { left: 4px; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">ローンチ配信台本</div>
+    <h1>30日ワーク 第1期「一緒に始める30日」</h1>
+    <p>LINEに貼る文面を、吹き出しごとにコピーできます。日付は例（給料日25日・第1期スタート15日）。黄色の【】は差し替える所です。</p>
+  </header>
+
+  <nav class="tabs" id="tabs" aria-label="表示の切り替え"></nav>
+
+  <section class="overview" id="overview" aria-label="配信の一覧"></section>
+  <section class="tl" id="tl" aria-label="配信の文面"></section>
+</div>
+
+<script>
+const DATA = {"line": [{"id": "L0", "when": "友だち追加のとき（自動）", "where": "LINE（見込み客）", "phase": "はじめ", "title": "あいさつ＋お金のクセ診断", "purpose": "診断で「自分のタイプが分かった」という小さな体験をしてもらう。結果を返信してもらうと、その後の配信が読まれやすくなる", "bubbles": ["友だち追加、ありがとうございます。アオです。\n\nこのLINEでは、毒親育ちの人の「お金の不安」を、少しずつゆるめるヒントをお届けします。\n\nまずは、プレゼントです。", "▼ お金のクセ診断（20問・5分）\n【診断PDFのURL】\n\n最近1か月のあなたに、0〜3で答えて、点数を足すだけ。\nお金のクセの「5つのタイプ」のうち、あなたに強く出ている2つが分かります。", "結果が出たら、あなたの2タイプを、このトークに送ってもらえたらうれしいです。\n（例：「人に出しすぎ・見ないふり」）\n\nいただいた返信は、すべて読みます。\nもちろん、送らなくても大丈夫です。"], "image": null, "memo": "「すべて読みます」と書くなら、読む時間を確保する。難しければ「いただいた返信は、配信の参考にします」に変える"}, {"id": "L1", "when": "2日（教育①）21:00", "where": "LINE（見込み客）", "phase": "教育", "title": "「足りない」の正体", "purpose": "型の「機会」：問題と、その本当の原因（家で覚えたお金のルール）。次回の予告で終える", "bubbles": ["こんばんは、アオです。\n診断、やってみましたか？\n\n今日は、毒親育ちの人の「足りない」が、どこから来るのか、という話です。", "家計簿アプリを入れた。節約の本も読んだ。\nそれでも続かなかった。\n続いても、「足りない」は消えなかった。\n\nもしそうなら、あなたの意志が弱いからではありません。\n\n家で、親からお金の使い方を教わった人は、100人のうち15人ほど。\nでも、教わっていなくても、子どもは見て覚えます。\n\n「うちはお金がない」が口ぐせの家。\nお金の話になると、空気が重くなる家。\n\nそこで覚えた「お金のルール」が、大人になった今も、静かに動いているんです。", "頼まれると、断る前に「いいよ」と言っている。\n人の分はすぐ出せるのに、自分の分はいつも最後。\n\nそれは性格ではなく、子どもの頃のあなたが、その家で自分を守るために覚えたルールです。\nだから、責めて直すものではなく、少しずつゆるめていくもの。\n\nお金のことで、いま一番聞きたいことがあれば、1つだけ送ってください。近いうちに、まとめてお答えします。\n\n次回は、僕がそれに気づいたきっかけの話です。\nたった650円が、出せなかった話。"], "image": null, "memo": "ここで集めた質問を、L7（よくある質問）に使う"}, {"id": "L2", "when": "4日（教育②）21:00", "where": "LINE（見込み客）", "phase": "教育", "title": "650円が、出せなかった", "purpose": "型の「変化」：アオの物語。受講者の声がまだ無いので、本人の変化を事例にする。最後に「安心ライン」という考え方を渡す", "bubbles": ["こんばんは、アオです。\n今日は、僕の話をさせてください。\n\n社会に出てすぐの頃、僕の給料は20万円ちょっとでした。\n残高が5万円を切って、口座を見るのが、どんどん怖くなっていきました。\n\n本当は、800円のラーメンが食べたい。\nなのに、手に取るのは150円のカップラーメン。\n\nたった650円の差なのに、自分のためだと、どうしても出せなかったんです。", "変わり始めたのは、「アダルトチルドレン」という言葉に出会って、お金のクセも「家で覚えたルールかもしれない」と思えたときからでした。\n\n【要確認：そのあと実際にやったことを1〜2行】\n\n初めて「使っていい」と思えたのは、値引きのお惣菜ではなく、1,500円のお寿司を買えた日です。\n\nそして、あるときから、引き落としのあとに残高を見ても、胸がざわつかなくなりました。", "1つ、知っておいてほしいことがあります。\n\n資産を1億円以上持っている人たちでも、約4人に3人が「完全に幸せになるには、今の2倍以上必要」と答えた、海外の調査があります。\n\nお金が増えても、「足りない」は消えないことがある。\n足りないのは、お金だけではなく、「ここまであれば大丈夫」という線なんです。\n\nあなたは今、その金額を言えますか？\n\n次回は、この線が引けたあとの「30日後の、ある1日」の話をします。"], "image": null, "memo": "【要確認】の1〜2行は、物語の説得力がいちばん上がる所。書けない場合は行ごと消す"}, {"id": "L3", "when": "6日（教育③）21:00", "where": "LINE（見込み客）", "phase": "教育", "title": "30日後の、ある1日", "purpose": "型の「手に入れた後」：その先の景色、3つの習慣（中身は伏せる）、「前にもやった」への答え、発売と第1期の予告", "bubbles": ["こんばんは、アオです。\n今日は、少し先の話です。\n\n給料日の翌日。\n何もしなくても、急な出費のためのお金が、自動で少しずつ別の口座に移っていく。\n\nお金のことを考えるのは、週に1回、5分だけ。\n\n週末の朝、好きなパン屋さんの朝ごはんを、罪悪感なしで食べている。\n\n引き落としのあとに残高を見ても、胸がざわつかない。", "そのためにやることは、3つだけです。\n\n① 見る：週に1回、5分だけ\n② 分ける：給料日に、使う前に先に分ける\n③ ひと呼吸：「もし〇〇になったら、△△する」を1文だけ\n\n細かい家計簿も、我慢の節約も、しません。\n親を許す必要も、ありません。\n\n「それなら前にもやった」と思った方へ。\n同じ「見る」でも、ため込みタイプと見ないふりタイプでは、練習することが逆です。\n診断で分かった2タイプによって、30日で特にやることが変わります。", "この30日を、1冊のワークにしました。\n\n『毒親育ちのお金の不安がなくなる小さな習慣』\n1日5分・書き込み式・118ページ\n\n9日（〇）の20時に、noteで発売します。\n\nそして今回は「第1期」として、買ってくださった方と、同じ日に一緒に始めます。\nくわしくは、発売の前日にお知らせしますね。"], "image": "03_3habits.png", "memo": "画像は2つ目の吹き出しの前か後に。発売日の曜日を入れる"}, {"id": "L4", "when": "8日（予告）21:00", "where": "LINE（見込み客）", "phase": "予告", "title": "明日、発売します（第1期のこと）", "purpose": "第1期の中身と、締め切りの理由を先に伝える。急がなくていいことも伝える", "bubbles": ["こんばんは、アオです。\n明日の20時に、30日ワークを発売します。\n\n先に、第1期のことをお伝えさせてください。", "▼ 第1期「一緒に始める30日」\n・15日（〇）に、全員でDay0を始めます\n・30日のあいだ、手が止まりやすい日を中心に、僕から伴走のメッセージが届きます（6回）\n・第1期の締め切りは、14日（〇）23:59です\n\n▼ なぜ15日なのか\n25日の給料日の前に、Day9「先取りを自動にする」を終えておけるからです。\n15日に始めると、次の給料日から、お金を分ける仕組みが動き出します。", "締め切りのあとも、ワークは同じ価格で買えます。\n値上げはしません。第1期の伴走メッセージだけが、つかなくなります。\n\n急がなくて大丈夫です。\n「一緒に始めたい」と思った方だけ、明日のお知らせを見てください。"], "image": null, "memo": "「先取り」はワーク内の言葉。初めての人向けに「給料が入ったら、使う前に先に分けておくこと」と補ってもよい"}, {"id": "L5", "when": "9日 20:00（発売）", "where": "LINE（見込み客）・X", "phase": "販売", "title": "発売しました", "purpose": "購入受付スタート。中身・手に入るもの・第1期・価格を1通で", "bubbles": ["お待たせしました。アオです。\n30日ワーク、発売しました。\n\n『毒親育ちのお金の不安がなくなる小さな習慣\n〜心と財布に余裕が生まれる30日ワーク〜』\n▶ 【noteのURL】", "▼ 中身\n・本編PDF（A4・118ページ・書き込み式・毎日図解つき）\n・スマホ用の書き込みノート\n・購入者限定LINE\n\n▼ 30日後に、手元に残るもの\n・あなたのお金のクセ（強く出ている2タイプ）\n・お金が出ていくところ（もれ口）と、その金額\n・「ここまであれば大丈夫」を書いた、あなただけの1枚", "▼ 第1期「一緒に始める30日」\n14日（〇）23:59までに購入した方は、15日に全員でDay0を始めます。\n伴走メッセージ（6回）つきです。\n\n価格は【価格】円です。\n締め切りの前後で、価格は変わりません。\n\n記事の前半は、無料で読めます。\n読んでみて、今のあなたに合いそうだと思ったら、使ってください。"], "image": "00_midashi.png", "memo": "画像は1つ目の吹き出しの後に"}, {"id": "L6", "when": "10日 21:00", "where": "LINE（見込み客）", "phase": "販売", "title": "中身を、少しだけ", "purpose": "実物を見せる。続けられるかの不安（時間・書けない日・重い日）に答える", "bubbles": ["こんばんは、アオです。\nワークの中身を、少しだけお見せしますね。\n\n1日は、2ページだけ。\n1ページ目を5分読んで、2ページ目に書きます。", "これは、Day10「いちばん大事な日」のページです。\n\n自分のために、少しだけお金を使ってみる日。\n使う前の気持ちと、使ったあとの気持ちを、くらべます。\n\n毎日のページに図解があるので、読むのがしんどい日も、図を見れば今日やることが分かります。", "・時間がない人は、7日だけでも一周できます\n・書けない日のための「スキップ券」が8枚あります\n・親の話が出てくる重い日は、飛ばしても一周できます\n\n▶ 【noteのURL】\n（第1期の締め切りは、14日23:59です）"], "image": "04_day10.png", "memo": "画像は1つ目の吹き出しの後に"}, {"id": "L7", "when": "11日 21:00", "where": "LINE（見込み客）", "phase": "販売", "title": "いただいた質問に答えます", "purpose": "迷いの理由に答える。L1で集めた質問に差し替えると、いちばん効く", "bubbles": ["こんばんは、アオです。\nいただいた質問に、まとめてお答えします。\n\nQ. 本当にお金が足りないのですが、役に立ちますか？\nお金が出ていくところ（もれ口）を見つけて、少ない額からでも分けておく仕組みをつくります。\nただ、収入を増やす方法は扱っていません。", "Q. 親と向き合わないといけませんか？\n向き合う必要も、許す必要もありません。\n親の話が出てくる日は、飛ばしても一周できます。\n\nQ. 実家に仕送りをしています。減らさないといけませんか？\n減らすかどうかは、あなたが決めることです。\nこのワークでするのは、出す枠と上限を「自分で選んで」決めることです。\n\nQ. 忙しくて、続けられるか不安です\n1日5分です。7日だけでも一周できます。\n止まっても、戻ってきた日が、続きの日です。", "Q. ワークのあとに、何か売り込まれますか？\nDay30の「ふり返りチェック」で、ひとりでは見えにくい根っこが残っていそうな方に向けて、巻末に個別セッション（1対1・有料）のご案内があります。\n申し込まなくても、ワークは最後まで使えます。\n\nQ. 借金があります／気持ちがつらいです\n返済のために別の借り入れをしているときや、眠れない・食べられないなどの不調が続くときは、ワークより先に、専門の窓口や医療機関に相談してください。\n\n▶ 【noteのURL】"], "image": null, "memo": "【要確認】実際に届いた質問があれば、1つ目の質問と差し替える（届いた質問は、本人が特定されない形に）"}, {"id": "L8", "when": "12日 21:00", "where": "LINE（見込み客）", "phase": "販売", "title": "タイプ別：30日で、特にやること", "purpose": "自分のタイプで読んでもらう。ツールがあれば、タイプのタグごとに該当部分だけ送る", "bubbles": ["こんばんは、アオです。\n今日は、タイプ別の話です。\n診断で分かった、あなたのタイプのところだけ読んでください。\n\n▼ ため込みタイプ\n「安心ライン」を、金額で決めます。見る日を決めて、それ以外の日は見ない練習をします。\n★ 特に効く日：Day2・8・22\n\n▼ 人に出しすぎタイプ\n人に出すお金の「枠」と「上限」を、先に決めます。頼まれたときの一言も用意します。\n★ 特に効く日：Day6・12・23・25", "▼ がまん爆発タイプ\n頑張ったかどうかと関係なく、「予定に入れた小さな楽しみ」を週1回入れます。\n★ 特に効く日：Day6・12・26・27\n\n▼ 受け取れないタイプ\n言い聞かせるかわりに、「大事にしていること」を書きます。値段を「すみません」なしで伝える一文もつくります。\n★ 特に効く日：Day12・24・25\n\n▼ 見ないふりタイプ\nお金を見る日を、週に1回だけ決めます。給料日に先に分けるお金を、自動にします。\n★ 特に効く日：Day2・8・22・27", "まだ診断をしていない方は、こちらからどうぞ（5分）。\n【診断PDFのURL】\n\n▶ 【noteのURL】\n（第1期の締め切りは、14日23:59です）"], "image": "02_5types.png", "memo": "画像は1つ目の吹き出しの前に。ツールでタグがある場合は、該当タイプの段落＋3つ目の吹き出しだけを送る"}, {"id": "L9", "when": "13日 21:00（締め切り前日）", "where": "LINE（見込み客）", "phase": "締め切り", "title": "第1期は、あした締め切りです", "purpose": "締め切りの理由をもう一度。買わない選択も肯定する", "bubbles": ["こんばんは、アオです。\n第1期の締め切りは、あした14日の23:59です。\n（もう購入された方は、読み飛ばしてくださいね）", "もう一度だけ、締め切りの理由をお伝えさせてください。\n\n15日に全員で始めると、25日の給料日の前に、Day9「先取りを自動にする」が終わります。\n次の給料日から、お金を分ける仕組みが動き出します。\n\n第1期の方には、手が止まりやすいDay13・20・28を中心に、僕からメッセージが届きます。", "迷っている方へ。\n\nこのワークでは、「自分で選ぶ」ことを何度も練習します。\nだから、買わないを選んでも、大丈夫です。\n今じゃないと思ったなら、それも大事な選択です。\n\nもし「一緒に始めたい」と思ったら、こちらからどうぞ。\n▶ 【noteのURL】"], "image": null, "memo": ""}, {"id": "L10", "when": "14日 8:00（締め切り当日・朝）", "where": "LINE（見込み客）", "phase": "締め切り", "title": "今日の23:59まで", "purpose": "当日のお知らせ。短く", "bubbles": ["おはようございます、アオです。\n第1期の締め切りは、今日の23:59です。\n\nあした15日から、一緒にDay0を始めましょう。\n▶ 【noteのURL】\n\n（購入済みの方は、購入者限定LINEで「第1期」と送ってください。案内が届きます）"], "image": null, "memo": ""}, {"id": "L11", "when": "14日 20:00（締め切り当日・夜）", "where": "LINE（見込み客）・X", "phase": "締め切り", "title": "あと4時間です", "purpose": "最後のお知らせ。商品の説明ではなく、読者を励まして終える", "bubbles": ["こんばんは、アオです。\n第1期の締め切りまで、あと4時間です。\n\n最後に、1つだけ。\n\nお金の不安は、あなたの性格のせいではありません。\n子どもの頃のあなたは、その家で、ちゃんと自分を守ってきました。\n\n今度は、その力を、これからの自分のために使う番です。\n\n始めるかどうかは、あなたが決めてください。\n▶ 【noteのURL】"], "image": null, "memo": ""}, {"id": "L12", "when": "15日 12:00（締め切りの翌日）", "where": "LINE（見込み客）", "phase": "お礼", "title": "ありがとうございました", "purpose": "締め切りの報告とお礼。買わなかった人にも、役に立つものを1つ渡して終える", "bubbles": ["こんにちは、アオです。\n第1期の募集は、昨夜で締め切りました。\n\n読んでくださった方、質問を送ってくださった方、本当にありがとうございました。", "ワークは、これからも同じ価格で買えます。\nいつか「今かな」と思ったときに、使ってください。\n（第1期の伴走メッセージは、つきません）", "最後に、ワークの中から1つだけ。\n\nお金を見る前に、今の気持ちに名前をつけてみてください。\n「不安」「焦り」など、1つだけ。\n名前をつけてから見ると、数字に飲み込まれにくくなります。\n\nこれからも、このLINEでは、お金と気持ちのヒントを、ときどきお届けします。"], "image": null, "memo": "次の配信からは、ふだんの役に立つ配信に戻す（週1回ほど）"}, {"id": "C0", "when": "15日 7:00（第1期 Day0）", "where": "購入者LINE", "phase": "第1期", "title": "今日から、Day0です", "purpose": "一斉スタート。初日にやることを2つだけ", "bubbles": ["第1期のみなさん、おはようございます。アオです。\n今日から、Day0です。\n\n今日やることは、2つだけ。\n\n1. PDFの最初から、第2章までを読む（15分ほど）\n2. 第2章のセルフチェック（20問）に答えて、あなたの2タイプを書く\n\n（LINEで診断をしていた方は、その結果でOKです）", "余裕があれば、「毎日このワークをやる時間と場所」も決めておくと、明日から楽です。\n\n進捗表の最初の2マス（「買った」「Day0」）を塗ったら、今日は完了です。", "次のメッセージは、1週間後に届きます。\n\nつらいページは、飛ばして大丈夫。\n止まっても、戻ってきた日が、続きの日です。\n\n30日、となりで案内します。"], "image": null, "memo": "キーワード「第1期」の自動応答にも、この1つ目の吹き出しを入れておく（締め切り当日に買った人向け）"}, {"id": "C1", "when": "22日（Day7）", "where": "購入者LINE", "phase": "第1期", "title": "1週目、おつかれさまでした", "purpose": "続けている人をねぎらい、止まった人を戻す。Day9（給料日の前）の予告", "bubbles": ["第1期のみなさん、アオです。\n1週間、おつかれさまでした。\n\n今日のDay7は、1週目の振り返りの日です。\nあなたのお金の「もれ口トップ1」は、どれでしたか？\n一言だけでも、返信してもらえたらうれしいです。", "そして、あさって24日はDay9。\n給料日の前に、「先取りを自動にする」日です。\n\n設定は、1回だけ。\n次の給料日から、お金を分ける仕組みが動き出します。", "まだDay1の途中の方も、大丈夫です。\nスキップ券を使って、今日のページから始めても一周できます。"], "image": null, "memo": ""}, {"id": "C2", "when": "28日（Day13）", "where": "購入者LINE", "phase": "第1期", "title": "つまずき①の日", "purpose": "1つめのつまずきポイントで止まる人を支える", "bubbles": ["第1期のみなさん、アオです。\n今日はDay13。1つめの「つまずきポイント」の日です。\n\n使っていいお金を決めたのに、何に使いたいのか分からない。\nここで手が止まる人は、少なくありません。", "浮かばなくても、大丈夫です。\n「自分が何をしたいのか」より、人の都合を先にしてきた人ほど、ここで止まります。\n\n浮かばないこと自体が、今日の大事な発見です。\n候補を1つだけ見つけられたら、十分です。", "3日以上止まったままのときは、PDFの巻末「このワークのあとに」も読んでみてください。"], "image": null, "memo": ""}, {"id": "C3", "when": "翌月4日（Day20）", "where": "購入者LINE", "phase": "第1期", "title": "つまずき②の日", "purpose": "2つめのつまずきポイント。まだ申し込みは求めず、Day30まで完走してもらう", "bubbles": ["第1期のみなさん、アオです。\n今日はDay20。2つめの「つまずきポイント」の日です。\n\n頭では分かったのに、気持ちが変わらない。\nそう感じている方も、多いと思います。", "それは、ちゃんと向き合ってきた人だけがぶつかる場所です。\n人は、自分の思い込みには、自分ではなかなか気づけません。\nあなたのせいではありません。\n\n今日は、大事にしていることに沿って、500円以内で1つ試す日です。", "まずは、Day30まで進んでみてください。\n最後に「30日のふり返りチェック」があります。"], "image": null, "memo": "`product/backend_funnel.md` の⑤と同じ考え方。ここではセッションの案内はしない"}, {"id": "C4", "when": "翌月12日（Day28）", "where": "購入者LINE", "phase": "第1期", "title": "つまずき③の日", "purpose": "3つめのつまずきポイント。できなかった日を責めない", "bubbles": ["第1期のみなさん、アオです。\n今日はDay28。3つめの「つまずきポイント」の日です。\n\n決めたのに、できない日があった。\nそれは、失敗ではありません。", "できなかった場面を、「場所」「時間」「気持ち」「誰と」で見直してみてください。\n\nできなかった理由は、意志ではなく、場面の側にあることが多いんです。\n書けたなら、それは次の材料です。", "あと2日で、30日です。"], "image": null, "memo": ""}, {"id": "C5", "when": "翌月14日（Day30）", "where": "購入者LINE", "phase": "第1期", "title": "完成の日", "purpose": "完走を祝う。ふり返りチェックに答えてもらい、Bの人だけにセッションを案内する", "bubbles": ["第1期のみなさん、アオです。\n30日、本当におつかれさまでした。\n\n今日はDay30、完成の日です。\nDay0の記録と並べて、余裕プランを完成させてください。", "そして、Day30の「30日のふり返りチェック」にも答えてみてください。\n\nBに当てはまった方へ。\nそれは、あなたの努力不足ではありません。\n根っこが、ひとりでは見えにくい場所にあるというサインです。", "このワークの記録を使って、続きから一緒に見ていく個別セッション（1対1）をご用意しています。\n詳しく知りたい方は、このLINEに「セッション」と送ってください。\n\nAだった方は、そのまま、ひとりで続けていきましょう。\n第1期に参加してくださって、ありがとうございました。"], "image": null, "memo": "`product/backend_funnel.md` の⑥⑦。キーワード「セッション」の自動返信を先に用意しておく"}], "x": [{"when": "1日", "kind": "告知", "text": "毒親育ちの人の「お金の不安」について、30日のワークをつくりました。\n\n家計簿も、我慢の節約もしない。\n親を許す必要もない。\n\n近いうちに発売します。\n先に、お金のクセが分かる20問の診断を、LINEで配っています。\n【LINEのURL】", "image": null}, {"when": "2日", "kind": "共感", "text": "自分のための800円は、レジの前で迷う。\nなのに、親に頼まれたお金は、理由も聞かずに振り込んでいる。\n\nそれ、だらしないからではありません。\n子どもの頃に、家で覚えた「お金のルール」のせいかもしれません。", "image": null}, {"when": "3日", "kind": "調査", "text": "資産1億円以上の人でも、約4人に3人が「完全に幸せになるには、今の2倍以上必要」と答えた調査があります。\n\n足りないのは、お金だけではありません。\n「ここまであれば大丈夫」という線です。\n\nあなたは今、その金額を言えますか？", "image": null}, {"when": "4日", "kind": "物語", "text": "社会人1年目。\n本当は800円のラーメンが食べたいのに、150円のカップラーメンを手に取っていました。\n\nたった650円の差。\nでも、自分のためだと、どうしても出せなかった。\n\nあの頃の僕に、教えたいことがあります。\n（続きはLINEで）\n【LINEのURL】", "image": null}, {"when": "5日", "kind": "5タイプ", "text": "お金のクセには、5つのタイプがあります。\n\nため込み／人に出しすぎ／がまん爆発／受け取れない／見ないふり\n\n2つ以上当てはまって、あたりまえ。\nどのタイプかで、やることが変わります。\n\n20問の診断はLINEで（5分）\n【LINEのURL】", "image": "02_5types.png"}, {"when": "7日", "kind": "3つの習慣", "text": "毒親育ちのお金の不安に、やることは3つだけ。\n\n① 見る：週に1回、5分\n② 分ける：給料日に、使う前に\n③ ひと呼吸：「もし〇〇になったら、△△する」を1文\n\n9日20時に、30日ワークとして発売します。", "image": "03_3habits.png"}, {"when": "9日 20:00", "kind": "発売", "text": "『毒親育ちのお金の不安がなくなる小さな習慣』発売しました。\n\n1日5分・書き込み式・118ページ。毎日図解つき。\n\n14日までに買った方とは「第1期」として、15日に一緒に始めます。\n\n記事の前半は無料で読めます。\n【noteのURL】", "image": "00_midashi.png"}, {"when": "12日", "kind": "中身", "text": "30日ワークの、Day10「いちばん大事な日」のページです。\n\n自分のために、少しだけお金を使ってみる日。\n使う前と、使ったあとの気持ちを、くらべます。\n\n読むのがしんどい日も、図を見れば分かるように作りました。\n【noteのURL】", "image": "04_day10.png"}, {"when": "14日 20:00", "kind": "締め切り", "text": "30日ワーク、第1期の締め切りは今夜23:59です。\n\nあした15日に、全員でDay0を始めます。\n（締め切りのあとも、同じ価格で買えます。第1期の伴走メッセージだけ、つかなくなります）\n\n始めるかどうかは、あなたが決めてください。\n【noteのURL】", "image": null}], "phases": ["はじめ", "教育", "予告", "販売", "締め切り", "お礼", "第1期"]};
+const PC = { 'はじめ': 'var(--p-misc)', '教育': 'var(--p-edu)', '予告': 'var(--p-edu)', '販売': 'var(--p-sell)', '締め切り': 'var(--p-close)', 'お礼': 'var(--p-misc)', '第1期': 'var(--p-c)', 'X': 'var(--navy)' };
+const VIEWS = [['all', 'すべて'], ['launch', 'LINE（ローンチ）'], ['c', '購入者LINE（第1期）'], ['x', 'X投稿']];
+let view = 'all';
+try { view = localStorage.getItem('launch-view') || 'all'; } catch (e) {}
+
+function esc(s) { return String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])); }
+function hl(s) { return esc(s).replace(/【[^】]*】/g, m => `<span class="mark">${m}</span>`); }
+
+async function copy(text, el) {
+  try { await navigator.clipboard.writeText(text); el.textContent = 'コピーしました'; el.classList.remove('warn'); }
+  catch (e) {
+    const pre = el.closest('.bubble').querySelector('pre');
+    const r = document.createRange(); r.selectNodeContents(pre);
+    const s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+    let ok = false; try { ok = document.execCommand('copy'); } catch (_) {}
+    el.textContent = ok ? 'コピーしました' : '選択しました。Ctrl+C（⌘+C）でコピー';
+    el.classList.toggle('warn', !ok);
+  }
+}
+
+function bubbleEl(text, label) {
+  const b = document.createElement('div');
+  b.className = 'bubble';
+  b.innerHTML = `<pre>${hl(text)}</pre><div class="bar"><span class="n">${esc(label)}・${text.length}字</span><span class="row"><span class="done" role="status"></span> <button class="copy" type="button">コピー</button></span></div>`;
+  b.querySelector('button').addEventListener('click', () => copy(text, b.querySelector('.done')));
+  return b;
+}
+
+function msgEl(m) {
+  const wrap = document.createElement('article');
+  wrap.className = 'msg';
+  wrap.id = 'm-' + m.id;
+  wrap.style.setProperty('--pc', PC[m.phase] || 'var(--navy)');
+  const card = document.createElement('div');
+  card.className = 'card';
+  card.innerHTML = `<div class="head"><span class="badge">${esc(m.id)}</span><h3>${esc(m.title)}</h3></div>
+    <div class="meta"><span>いつ <b>${esc(m.when)}</b></span><span>どこ <b>${esc(m.where)}</b></span></div>
+    <div class="why">${esc(m.purpose)}</div>`;
+  if (m.image) {
+    const d = document.createElement('div');
+    d.className = 'img';
+    d.innerHTML = `<img src="images/${esc(m.image)}" alt="${esc(m.image)}" loading="lazy"><span>画像：${esc(m.image)}<br>（noteの貼り付けキットと同じ画像）</span>`;
+    card.appendChild(d);
+  }
+  const bs = document.createElement('div');
+  bs.className = 'bubbles';
+  m.bubbles.forEach((t, i) => bs.appendChild(bubbleEl(t, '吹き出し' + (i + 1))));
+  card.appendChild(bs);
+  if (m.memo) {
+    const memo = document.createElement('div');
+    memo.className = 'memo';
+    memo.innerHTML = `<b>メモ</b>${hl(m.memo)}`;
+    card.appendChild(memo);
+  }
+  wrap.innerHTML = '<div class="rail"><i></i></div>';
+  wrap.appendChild(card);
+  return wrap;
+}
+
+function xEl(p, i) {
+  return msgEl({ id: 'X' + (i + 1), title: p.kind, when: p.when, where: 'X（旧Twitter）', phase: 'X', purpose: 'LINEへの登録と、発売・締め切りのお知らせ', bubbles: [p.text], image: p.image, memo: '' });
+}
+
+function render() {
+  const tabs = document.getElementById('tabs');
+  tabs.innerHTML = '';
+  VIEWS.forEach(([k, label]) => {
+    const b = document.createElement('button');
+    b.type = 'button'; b.textContent = label; b.setAttribute('aria-pressed', String(view === k));
+    b.addEventListener('click', () => { view = k; try { localStorage.setItem('launch-view', k); } catch (e) {} render(); });
+    tabs.appendChild(b);
+  });
+  const line = DATA.line.filter(m => view === 'all' || (view === 'launch' && m.phase !== '第1期') || (view === 'c' && m.phase === '第1期'));
+  const xs = (view === 'all' || view === 'x') ? DATA.x : [];
+  const ov = document.getElementById('overview');
+  const rows = line.map(m => `<tr><td class="id" style="color:${PC[m.phase]}">${esc(m.id)}</td><td>${esc(m.when)}</td><td><a href="#m-${esc(m.id)}">${esc(m.title)}</a></td><td>${esc(m.where)}</td></tr>`)
+    .concat(xs.map((p, i) => `<tr><td class="id">X${i + 1}</td><td>${esc(p.when)}</td><td><a href="#m-X${i + 1}">${esc(p.kind)}</a></td><td>X</td></tr>`)).join('');
+  ov.innerHTML = `<table><thead><tr><th>ID</th><th>いつ</th><th>内容</th><th>どこ</th></tr></thead><tbody>${rows}</tbody></table>`;
+  const tl = document.getElementById('tl');
+  tl.innerHTML = '';
+  line.forEach(m => tl.appendChild(msgEl(m)));
+  xs.forEach((p, i) => tl.appendChild(xEl(p, i)));
+}
+render();
+</script>
