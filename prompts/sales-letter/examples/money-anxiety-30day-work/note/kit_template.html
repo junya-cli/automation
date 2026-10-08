@@ -1,0 +1,272 @@
+<title>30日ワーク note貼り付けキット</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700&family=Noto+Sans+JP:wght@400;500;700&display=swap">
+<style>
+/* 1カラムの作業ページ。ワークブックPDFの配色（紺・金・ラベンダー）をそのまま使う */
+:root {
+  --bg: #F7F3EA;
+  --paper: #FFFDF8;
+  --ink: #2F3047;
+  --sub: #6B6A80;
+  --line: #E6DFCF;
+  --navy: #283265;
+  --gold: #A9813A;
+  --gold-soft: #F5ECD8;
+  --lav: #6D5BB0;
+  --lav-soft: #EEEAF8;
+  --todo-bg: #FFF1CC;
+  --todo-ink: #8A5A00;
+  --ok: #2A8B7F;
+  --shadow: 0 1px 2px rgba(40,50,101,.06), 0 6px 18px rgba(40,50,101,.06);
+  --f-display: 'Zen Maru Gothic', 'Hiragino Maru Gothic ProN', 'Noto Sans JP', sans-serif;
+  --f-body: 'Noto Sans JP', 'Hiragino Sans', 'Yu Gothic', sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #15172A; --paper: #1E2138; --ink: #ECEAF4; --sub: #A9A8C0; --line: #33365A;
+    --navy: #AEB8F2; --gold: #E1BE7C; --gold-soft: #2E2A22; --lav: #C2B6F3; --lav-soft: #2A2647;
+    --todo-bg: #3A2F12; --todo-ink: #F3D27A; --ok: #6FD3C3;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 6px 18px rgba(0,0,0,.25);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #15172A; --paper: #1E2138; --ink: #ECEAF4; --sub: #A9A8C0; --line: #33365A;
+  --navy: #AEB8F2; --gold: #E1BE7C; --gold-soft: #2E2A22; --lav: #C2B6F3; --lav-soft: #2A2647;
+  --todo-bg: #3A2F12; --todo-ink: #F3D27A; --ok: #6FD3C3;
+  --shadow: 0 1px 2px rgba(0,0,0,.3), 0 6px 18px rgba(0,0,0,.25);
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--f-body); font-size: 15px; line-height: 1.8; }
+.wrap { max-width: 760px; margin: 0 auto; padding-inline: 16px; padding-block: 28px 64px; display: flex; flex-direction: column; gap: 28px; }
+h1, h2, h3 { font-family: var(--f-display); font-weight: 700; color: var(--navy); text-wrap: balance; word-break: auto-phrase; margin: 0; }
+header h1 { font-size: clamp(22px, 5vw, 30px); line-height: 1.4; }
+header .eyebrow { font-family: var(--f-display); color: var(--gold); letter-spacing: .14em; font-size: 13px; }
+header p { color: var(--sub); margin: 8px 0 0; }
+.steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; counter-reset: s; }
+.steps li { display: grid; grid-template-columns: 30px 1fr; gap: 10px; align-items: start; background: var(--paper); border: 1px solid var(--line); border-radius: 12px; padding: 10px 14px; }
+.steps li::before { counter-increment: s; content: counter(s); width: 26px; height: 26px; border-radius: 50%; background: var(--navy); color: var(--paper); font-family: var(--f-display); font-weight: 700; font-size: 14px; display: flex; align-items: center; justify-content: center; margin-top: 2px; }
+.steps b { color: var(--navy); }
+section.card { background: var(--paper); border: 1px solid var(--line); border-radius: 16px; padding: 20px; box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+section.card > h2 { font-size: 20px; display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+section.card > h2 small { font-family: var(--f-body); font-weight: 500; font-size: 13px; color: var(--sub); }
+.row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+button.copy { appearance: none; border: 0; cursor: pointer; background: var(--navy); color: var(--paper); font-family: var(--f-display); font-weight: 700; font-size: 15px; border-radius: 999px; padding: 10px 20px; }
+button.copy.sm { font-size: 13px; padding: 6px 14px; }
+button.copy.ghost { background: transparent; color: var(--navy); box-shadow: inset 0 0 0 1.5px var(--navy); }
+button.copy:focus-visible, input:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+.msg { font-size: 13px; color: var(--ok); min-height: 1.4em; }
+.msg.warn { color: var(--todo-ink); }
+.titles { display: flex; flex-direction: column; gap: 8px; }
+.titles .t { display: grid; grid-template-columns: 1fr auto; gap: 10px; align-items: center; border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; }
+.titles .t span { min-width: 0; font-weight: 500; }
+.titles .rec { font-family: var(--f-display); font-size: 12px; color: var(--gold); display: block; }
+.tags { font-family: var(--f-display); color: var(--lav); }
+figure { margin: 0; }
+figure img { display: block; max-width: 100%; height: auto; border-radius: 10px; border: 1px solid var(--line); }
+figcaption { font-size: 13px; color: var(--sub); margin-top: 6px; }
+.hint { font-size: 13px; color: var(--sub); }
+/* noteの見た目に寄せたプレビュー */
+.preview { border: 1px dashed var(--line); border-radius: 12px; padding: 20px 18px; max-height: 70vh; overflow: auto; font-size: 16px; line-height: 2; }
+.preview h2 { font-size: 21px; margin: 32px 0 12px; }
+.preview h3 { font-size: 18px; margin: 24px 0 8px; }
+.preview p { margin: 0 0 18px; }
+.preview ul, .preview ol { margin: 0 0 18px; padding-left: 1.4em; }
+.preview hr { border: 0; border-top: 1px solid var(--line); margin: 28px 0; }
+.preview .center { text-align: center; }
+.preview .small { font-size: 13px; color: var(--sub); }
+.preview strong { color: var(--navy); }
+.preview a { color: var(--lav); word-break: break-all; }
+.marker { border-radius: 10px; padding: 10px 12px; margin: 0 0 18px; font-size: 14px; line-height: 1.7; }
+.marker.img { background: var(--lav-soft); color: var(--lav); }
+.marker.img img { margin-top: 8px; display: block; max-width: 100%; border-radius: 8px; }
+.marker.todo { background: var(--todo-bg); color: var(--todo-ink); }
+.marker b { font-family: var(--f-display); }
+.paywall { display: flex; align-items: center; gap: 10px; color: var(--gold); font-family: var(--f-display); font-weight: 700; font-size: 14px; }
+.paywall::before, .paywall::after { content: ""; flex: 1; border-top: 2px dashed var(--gold); }
+.imgs { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; }
+.imgs .no { font-family: var(--f-display); font-weight: 700; color: var(--navy); }
+.check { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.check label { display: grid; grid-template-columns: 22px 1fr; gap: 10px; align-items: start; cursor: pointer; }
+.check input { width: 18px; height: 18px; margin-top: 5px; accent-color: var(--ok); }
+.check input:checked + span { color: var(--sub); text-decoration: line-through; }
+#buf { position: absolute; left: -10000px; top: 0; width: 600px; }
+@media (max-width: 480px) { section.card { padding: 16px; } .titles .t { grid-template-columns: 1fr; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">note 貼り付けキット</div>
+    <h1>毒親育ちのお金の不安がなくなる小さな習慣</h1>
+    <p>販売記事の本文・画像・有料エリアを、noteの編集画面にそのまま貼れる形にまとめました。パソコンのブラウザで開くのがいちばん楽です。</p>
+  </header>
+
+  <ol class="steps" aria-label="手順">
+    <li><span><b>タイトル</b>を選んでコピーし、noteのタイトル欄に貼る。<b>見出し画像</b>を設定する。</span></li>
+    <li><span><b>本文（無料部分）</b>の「本文をコピー」を押し、noteの本文欄に貼る。見出し・太字・箇条書きはそのまま入ります。</span></li>
+    <li><span>冒頭の6段落を選んで、noteの<b>中央寄せ</b>にする（貼り付けで中央寄せが外れた場合）。</span></li>
+    <li><span>本文中の<b>【画像①〜⑤】</b>の行を、下の画像に差し替える（＋ボタン →「画像」）。差し替えたら【】の行は消す。</span></li>
+    <li><span>本文の最後（出典の下）に<b>有料ライン</b>を置き、その下に<b>有料エリア</b>をコピーして貼る。PDFを添付する。</span></li>
+    <li><span><b>【要確認】</b>の行を直すか消してから、価格を決めて公開する。最後に「公開前チェック」を確認。</span></li>
+  </ol>
+
+  <section class="card" id="title">
+    <h2>タイトル <small>どれか1つ</small></h2>
+    <div class="titles" id="titles"></div>
+    <div>
+      <div class="hint">ハッシュタグ</div>
+      <div class="row"><span class="tags" id="tags"></span><button class="copy sm ghost" type="button" data-copy-text="tags">コピー</button></div>
+    </div>
+  </section>
+
+  <section class="card" id="midashi">
+    <h2>見出し画像 <small>1280×670</small></h2>
+    <figure><img src="images/00_midashi.png" alt="見出し画像：毒親育ちのお金の不安がなくなる小さな習慣（アオのイラストつき）" width="1280" height="670"><figcaption>画像を長押し（パソコンは右クリック）で保存して、noteの「見出し画像」に設定してください。</figcaption></figure>
+  </section>
+
+  <section class="card" id="free">
+    <h2>本文（無料部分） <small id="freeCount"></small></h2>
+    <div class="row"><button class="copy" type="button" data-copy="free">本文をコピー</button><span class="msg" id="msg-free" role="status"></span></div>
+    <div class="preview" id="pv-free"></div>
+  </section>
+
+  <div class="paywall" role="separator">ここに note の有料ラインを置く</div>
+
+  <section class="card" id="paid">
+    <h2>有料エリア <small>有料ラインの下に貼る</small></h2>
+    <div class="row"><button class="copy" type="button" data-copy="paid">有料エリアをコピー</button><span class="msg" id="msg-paid" role="status"></span></div>
+    <div class="preview" id="pv-paid"></div>
+  </section>
+
+  <section class="card" id="images">
+    <h2>画像 <small>本文の【画像○】の位置に入れる</small></h2>
+    <div class="imgs" id="imgs"></div>
+    <div class="hint">画像は長押し（パソコンは右クリック）で保存できます。</div>
+  </section>
+
+  <section class="card" id="check">
+    <h2>公開前チェック</h2>
+    <ul class="check" id="checks"></ul>
+  </section>
+</div>
+<div id="buf" aria-hidden="true"></div>
+
+<script>
+const DATA = /*__DATA__*/null;
+
+function esc(s) { return String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])); }
+
+function preview(blocks) {
+  return blocks.map(([k, v]) => {
+    if (k === 'c') return `<p class="center">${v}</p>`;
+    if (k === 'p') return `<p>${v}</p>`;
+    if (k === 'small') return `<p class="small">${v}</p>`;
+    if (k === 'h2' || k === 'h3') return `<${k}>${v}</${k}>`;
+    if (k === 'ul' || k === 'ol') return `<${k}>${v.map(x => `<li>${x}</li>`).join('')}</${k}>`;
+    if (k === 'hr') return '<hr>';
+    if (k === 'img') return `<div class="marker img"><b>【画像${v[0]}をここに挿入】</b> ${esc(v[2])}<img src="images/${v[1]}" alt="${esc(v[2])}" loading="lazy"></div>`;
+    if (k === 'todo') return `<div class="marker todo"><b>【要確認】</b> ${esc(v)}</div>`;
+    return '';
+  }).join('');
+}
+
+function plain(html) {
+  const d = document.createElement('div');
+  d.innerHTML = html.replace(/<br\s*\/?>/g, '\n').replace(/<\/(p|h2|h3|li)>/g, '\n').replace(/<hr>/g, '\n―――\n');
+  return d.textContent.replace(/\n{3,}/g, '\n\n').trim();
+}
+
+async function copyRich(html, msgEl) {
+  const text = plain(html);
+  try {
+    if (window.ClipboardItem && navigator.clipboard && navigator.clipboard.write) {
+      await navigator.clipboard.write([new ClipboardItem({
+        'text/html': new Blob([html], { type: 'text/html' }),
+        'text/plain': new Blob([text], { type: 'text/plain' }),
+      })]);
+      return say(msgEl, 'コピーしました。noteの本文欄に貼り付けてください。');
+    }
+    throw new Error('no rich clipboard');
+  } catch (e) {
+    const buf = document.getElementById('buf');
+    buf.innerHTML = html;
+    const r = document.createRange();
+    r.selectNodeContents(buf);
+    const sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(r);
+    let ok = false;
+    try { ok = document.execCommand('copy'); } catch (_) { ok = false; }
+    if (ok) { sel.removeAllRanges(); return say(msgEl, 'コピーしました。noteの本文欄に貼り付けてください。'); }
+    say(msgEl, '選択しました。Ctrl+C（Macは⌘+C）でコピーしてください。', true);
+  }
+}
+
+async function copyText(text, msgEl) {
+  try { await navigator.clipboard.writeText(text); say(msgEl, 'コピーしました'); }
+  catch (e) { say(msgEl, '文字を長押し（右クリック）してコピーしてください', true); }
+}
+
+function say(el, t, warn) { if (!el) return; el.textContent = t; el.classList.toggle('warn', !!warn); }
+
+function init() {
+  document.getElementById('pv-free').innerHTML = preview(DATA.free);
+  document.getElementById('pv-paid').innerHTML = preview(DATA.paid);
+  const n = plain(DATA.freeHtml).replace(/\s/g, '').length;
+  document.getElementById('freeCount').textContent = `約${Math.round(n / 100) * 100}字`;
+
+  const t = document.getElementById('titles');
+  DATA.titles.forEach((s, i) => {
+    const row = document.createElement('div');
+    row.className = 't';
+    row.innerHTML = `<span>${i === 0 ? '<span class="rec">おすすめ（検索で見つかりやすい）</span>' : ''}${esc(s)}</span><span class="row"><button class="copy sm ghost" type="button">コピー</button><span class="msg"></span></span>`;
+    row.querySelector('button').addEventListener('click', ev => copyText(s, row.querySelector('.msg')));
+    t.appendChild(row);
+  });
+  document.getElementById('tags').textContent = DATA.tags.join(' ');
+  document.querySelector('[data-copy-text="tags"]').addEventListener('click', ev => {
+    const m = ev.currentTarget.nextElementSibling || ev.currentTarget.parentElement.appendChild(Object.assign(document.createElement('span'), { className: 'msg' }));
+    copyText(DATA.tags.join(' '), m);
+  });
+
+  document.querySelector('[data-copy="free"]').addEventListener('click', () => copyRich(DATA.freeHtml, document.getElementById('msg-free')));
+  document.querySelector('[data-copy="paid"]').addEventListener('click', () => copyRich(DATA.paidHtml, document.getElementById('msg-paid')));
+
+  const imgs = document.getElementById('imgs');
+  DATA.images.forEach(([no, file, where]) => {
+    const f = document.createElement('figure');
+    f.innerHTML = `<img src="images/${file}" alt="${esc(no)} ${esc(where)}" loading="lazy"><figcaption><span class="no">${esc(no)}</span>　${esc(where)}<br><span class="hint">${esc(file)}</span></figcaption>`;
+    imgs.appendChild(f);
+  });
+
+  const items = [
+    '冒頭の6段落を中央寄せにした',
+    '画像①〜⑤を入れて、【画像】の行を消した',
+    '両親の話を載せてよいか確認した（載せないなら2行とも消した）',
+    '「そのあと実際にやったこと」を書いた（書かないなら行を消した）',
+    '返金の一言を入れた（受け付けないなら行を消した）',
+    '「声」は、集まるまで置いていない',
+    '本文の最後（出典の下）に有料ラインを置いた',
+    '有料エリアを貼り、PDFを添付した',
+    'noteの公開設定で価格を決めた',
+    'ページ内検索で「【」が残っていないことを確かめた',
+  ];
+  let saved = {};
+  try { saved = JSON.parse(localStorage.getItem('kit-checks') || '{}'); } catch (e) { saved = {}; }
+  const ul = document.getElementById('checks');
+  items.forEach((s, i) => {
+    const li = document.createElement('li');
+    li.innerHTML = `<label for="c${i}"><input type="checkbox" id="c${i}"><span>${esc(s)}</span></label>`;
+    const box = li.querySelector('input');
+    box.checked = !!saved[i];
+    box.addEventListener('change', () => {
+      saved[i] = box.checked;
+      try { localStorage.setItem('kit-checks', JSON.stringify(saved)); } catch (e) {}
+    });
+    ul.appendChild(li);
+  });
+}
+init();
+</script>
