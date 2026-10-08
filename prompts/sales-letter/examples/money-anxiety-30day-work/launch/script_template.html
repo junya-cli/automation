@@ -93,7 +93,7 @@ button.copy:focus-visible, .tabs button:focus-visible { outline: 3px solid var(-
   <header>
     <div class="eyebrow">ローンチ配信台本</div>
     <h1>30日ワーク 第1期「一緒に始める30日」</h1>
-    <p>LINEに貼る文面を、吹き出しごとにコピーできます。日付は例（給料日25日・第1期スタート15日）。黄色の【】は差し替える所です。</p>
+    <p>LINEに貼る文面を、吹き出しごとにコピーできます。教育 10/10〜、発売 10/16 20:00、第1期の締め切り 10/21 23:59、第1期スタート 10/22。黄色の【】は差し替える所です。</p>
   </header>
 
   <nav class="tabs" id="tabs" aria-label="表示の切り替え"></nav>
@@ -104,8 +104,8 @@ button.copy:focus-visible, .tabs button:focus-visible { outline: 3px solid var(-
 
 <script>
 const DATA = /*__DATA__*/null;
-const PC = { 'はじめ': 'var(--p-misc)', '教育': 'var(--p-edu)', '予告': 'var(--p-edu)', '販売': 'var(--p-sell)', '締め切り': 'var(--p-close)', 'お礼': 'var(--p-misc)', '第1期': 'var(--p-c)', 'X': 'var(--navy)' };
-const VIEWS = [['all', 'すべて'], ['launch', 'LINE（ローンチ）'], ['c', '購入者LINE（第1期）'], ['x', 'X投稿']];
+const PC = { '特典': 'var(--gold)', 'はじめ': 'var(--p-misc)', '教育': 'var(--p-edu)', '予告': 'var(--p-edu)', '販売': 'var(--p-sell)', '締め切り': 'var(--p-close)', 'お礼': 'var(--p-misc)', '第1期': 'var(--p-c)', 'X': 'var(--navy)' };
+const VIEWS = [['all', 'すべて'], ['launch', 'LINE（ローンチ）'], ['c', 'LINE（第1期の伴走）'], ['cards', '第1期特典（タイプ別）'], ['x', 'X投稿']];
 let view = 'all';
 try { view = localStorage.getItem('launch-view') || 'all'; } catch (e) {}
 
@@ -167,6 +167,10 @@ function xEl(p, i) {
   return msgEl({ id: 'X' + (i + 1), title: p.kind, when: p.when, where: 'X（旧Twitter）', phase: 'X', purpose: 'LINEへの登録と、発売・締め切りのお知らせ', bubbles: [p.text], image: p.image, memo: '' });
 }
 
+function cardEl(c) {
+  return msgEl({ id: c.key, title: c.title, when: 'キーワード：' + c.keys.join('、'), where: 'LINE公式の応答メッセージ', phase: '特典', purpose: '第1期の人が「' + c.keys[0] + '」と送ってきたときに自動で返す', bubbles: [c.text], image: null, memo: '' });
+}
+
 function render() {
   const tabs = document.getElementById('tabs');
   tabs.innerHTML = '';
@@ -178,13 +182,16 @@ function render() {
   });
   const line = DATA.line.filter(m => view === 'all' || (view === 'launch' && m.phase !== '第1期') || (view === 'c' && m.phase === '第1期'));
   const xs = (view === 'all' || view === 'x') ? DATA.x : [];
+  const cs = (view === 'all' || view === 'cards') ? DATA.cards : [];
   const ov = document.getElementById('overview');
   const rows = line.map(m => `<tr><td class="id" style="color:${PC[m.phase]}">${esc(m.id)}</td><td>${esc(m.when)}</td><td><a href="#m-${esc(m.id)}">${esc(m.title)}</a></td><td>${esc(m.where)}</td></tr>`)
+    .concat(cs.map(c => `<tr><td class="id" style="color:var(--gold)">${esc(c.key)}</td><td>自動応答</td><td><a href="#m-${esc(c.key)}">${esc(c.title)}</a></td><td>LINE</td></tr>`))
     .concat(xs.map((p, i) => `<tr><td class="id">X${i + 1}</td><td>${esc(p.when)}</td><td><a href="#m-X${i + 1}">${esc(p.kind)}</a></td><td>X</td></tr>`)).join('');
   ov.innerHTML = `<table><thead><tr><th>ID</th><th>いつ</th><th>内容</th><th>どこ</th></tr></thead><tbody>${rows}</tbody></table>`;
   const tl = document.getElementById('tl');
   tl.innerHTML = '';
   line.forEach(m => tl.appendChild(msgEl(m)));
+  cs.forEach(c => tl.appendChild(cardEl(c)));
   xs.forEach((p, i) => tl.appendChild(xEl(p, i)));
 }
 render();
