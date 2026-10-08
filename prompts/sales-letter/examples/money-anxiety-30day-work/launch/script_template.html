@@ -19,7 +19,8 @@
   --todo-bg: #FFF1CC;
   --todo-ink: #8A5A00;
   --ok: #2A8B7F;
-  --p-edu: #3A74C2; --p-sell: #C2862A; --p-close: #C25B6A; --p-c: #2A8B7F; --p-misc: #8064BF;
+  --rose: #B8505F;
+  --p-edu: #3A74C2; --p-sell: #C2862A; --p-close: #C25B6A; --p-c: #2A8B7F; --p-misc: #8064BF; --p-auto: #4E8F5A;
   --shadow: 0 1px 2px rgba(40,50,101,.06), 0 6px 18px rgba(40,50,101,.06);
   --f-display: 'Zen Maru Gothic', 'Hiragino Maru Gothic ProN', 'Noto Sans JP', sans-serif;
   --f-body: 'Noto Sans JP', 'Hiragino Sans', 'Yu Gothic', sans-serif;
@@ -28,8 +29,8 @@
   :root:not([data-theme="light"]) {
     --bg: #15172A; --paper: #1E2138; --ink: #ECEAF4; --sub: #A9A8C0; --line: #33365A;
     --navy: #AEB8F2; --gold: #E1BE7C; --lav: #C2B6F3; --bubble: #262A47; --bubble-line: #3A3E66; --chip: #2A2647;
-    --todo-bg: #3A2F12; --todo-ink: #F3D27A; --ok: #6FD3C3;
-    --p-edu: #7FA9E8; --p-sell: #E2AE5E; --p-close: #EE8C99; --p-c: #6FD3C3; --p-misc: #B8A4EC;
+    --todo-bg: #3A2F12; --todo-ink: #F3D27A; --ok: #6FD3C3; --rose: #EE8C99;
+    --p-edu: #7FA9E8; --p-sell: #E2AE5E; --p-close: #EE8C99; --p-c: #6FD3C3; --p-misc: #B8A4EC; --p-auto: #8FD19B;
     --shadow: 0 1px 2px rgba(0,0,0,.3), 0 6px 18px rgba(0,0,0,.25);
     color-scheme: dark;
   }
@@ -37,64 +38,98 @@
 :root[data-theme="dark"] {
   --bg: #15172A; --paper: #1E2138; --ink: #ECEAF4; --sub: #A9A8C0; --line: #33365A;
   --navy: #AEB8F2; --gold: #E1BE7C; --lav: #C2B6F3; --bubble: #262A47; --bubble-line: #3A3E66; --chip: #2A2647;
-  --todo-bg: #3A2F12; --todo-ink: #F3D27A; --ok: #6FD3C3;
-  --p-edu: #7FA9E8; --p-sell: #E2AE5E; --p-close: #EE8C99; --p-c: #6FD3C3; --p-misc: #B8A4EC;
+  --todo-bg: #3A2F12; --todo-ink: #F3D27A; --ok: #6FD3C3; --rose: #EE8C99;
+  --p-edu: #7FA9E8; --p-sell: #E2AE5E; --p-close: #EE8C99; --p-c: #6FD3C3; --p-misc: #B8A4EC; --p-auto: #8FD19B;
   --shadow: 0 1px 2px rgba(0,0,0,.3), 0 6px 18px rgba(0,0,0,.25);
   color-scheme: dark;
 }
 * { box-sizing: border-box; }
-body { background: var(--bg); color: var(--ink); font-family: var(--f-body); font-size: 15px; line-height: 1.8; }
+body { background: var(--bg); color: var(--ink); font-family: var(--f-body); font-size: 15px; line-height: 1.8; margin: 0; }
 .wrap { max-width: 780px; margin: 0 auto; padding-inline: 16px; padding-block: 28px 72px; display: flex; flex-direction: column; gap: 24px; }
 h1, h2, h3 { font-family: var(--f-display); font-weight: 700; color: var(--navy); text-wrap: balance; word-break: auto-phrase; margin: 0; }
 header .eyebrow { font-family: var(--f-display); color: var(--gold); letter-spacing: .14em; font-size: 13px; }
 header h1 { font-size: clamp(22px, 5vw, 30px); line-height: 1.4; }
 header p { color: var(--sub); margin: 8px 0 0; }
-.tabs { display: flex; gap: 8px; flex-wrap: wrap; position: sticky; top: env(safe-area-inset-top, 0px); background: var(--bg); padding-block: 8px; z-index: 2; }
+.notice { background: var(--paper); border: 1.5px solid var(--gold); border-radius: 16px; padding: 14px 16px; box-shadow: var(--shadow); font-size: 14px; }
+.notice h2 { font-size: 16px; margin-bottom: 6px; }
+.notice ul { margin: 0; padding-left: 1.2em; }
+.notice li + li { margin-top: 2px; }
+.notice b { color: var(--navy); }
+.tabs { display: flex; gap: 8px; flex-wrap: wrap; position: sticky; top: env(safe-area-inset-top, 0px); background: var(--bg); padding-block: 8px; z-index: 2; align-items: center; }
 .tabs button { appearance: none; border: 1.5px solid var(--line); background: var(--paper); color: var(--ink); border-radius: 999px; padding: 6px 14px; font-family: var(--f-display); font-weight: 700; font-size: 14px; cursor: pointer; }
 .tabs button[aria-pressed="true"] { background: var(--navy); color: var(--paper); border-color: var(--navy); }
+.tabs button.lean { border-style: dashed; }
+.tabs button.lean[aria-pressed="true"] { background: var(--gold); border-color: var(--gold); border-style: solid; }
 .overview { background: var(--paper); border: 1px solid var(--line); border-radius: 16px; padding: 16px; box-shadow: var(--shadow); overflow-x: auto; }
-.overview table { border-collapse: collapse; width: 100%; min-width: 520px; font-size: 14px; }
+.overview table { border-collapse: collapse; width: 100%; min-width: 560px; font-size: 14px; }
 .overview th, .overview td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
 .overview th { font-family: var(--f-display); color: var(--sub); font-weight: 700; font-size: 12px; letter-spacing: .08em; }
 .overview td.id { font-family: var(--f-display); font-weight: 700; white-space: nowrap; }
 .overview a { color: inherit; text-decoration: none; border-bottom: 1px dashed var(--line); }
+.tier { display: inline-block; font-family: var(--f-display); font-weight: 700; font-size: 12px; border-radius: 6px; padding: 0 7px; white-space: nowrap; border: 1.5px solid currentColor; }
+.tier.must { color: var(--rose); }
+.tier.opt { color: var(--sub); border-style: dashed; }
+.tier.auto { color: var(--p-auto); }
 .tl { display: flex; flex-direction: column; gap: 18px; }
 .msg { display: grid; grid-template-columns: 14px 1fr; gap: 14px; }
 .rail { position: relative; }
 .rail::before { content: ""; position: absolute; left: 6px; top: 22px; bottom: -22px; width: 2px; background: var(--line); }
 .rail i { position: absolute; left: 0; top: 10px; width: 14px; height: 14px; border-radius: 50%; background: var(--pc); box-shadow: 0 0 0 3px var(--bg); }
 .card { background: var(--paper); border: 1px solid var(--line); border-radius: 16px; padding: 16px; box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 12px; min-width: 0; }
-.card .head { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: baseline; }
+.card .head { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; }
 .badge { font-family: var(--f-display); font-weight: 700; color: var(--paper); background: var(--pc); border-radius: 8px; padding: 0 9px; font-size: 14px; }
 .card h3 { font-size: 18px; }
 .meta { font-size: 13px; color: var(--sub); display: flex; flex-wrap: wrap; gap: 4px 14px; }
 .meta b { color: var(--ink); font-weight: 500; }
 .why { font-size: 13.5px; color: var(--sub); border-left: 3px solid var(--pc); padding-left: 10px; }
 .bubbles { display: flex; flex-direction: column; gap: 10px; }
-.bubble { position: relative; background: var(--bubble); border: 1.5px solid var(--bubble-line); border-radius: 18px 18px 18px 6px; padding: 12px 14px 10px; }
+.bubble { position: relative; background: var(--bubble); border: 1.5px solid var(--bubble-line); border-radius: 18px 18px 18px 6px; padding: 12px 14px 10px; min-width: 0; }
 .bubble pre { margin: 0; white-space: pre-wrap; word-break: break-word; font-family: var(--f-body); font-size: 14.5px; line-height: 1.75; color: var(--ink); }
-.bubble .bar { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-top: 8px; }
+.bubble .bar { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
 .bubble .n { font-family: var(--f-display); font-size: 12px; color: var(--sub); }
-.row { display: inline-flex; gap: 8px; align-items: center; }
+.bubble.media { display: grid; grid-template-columns: minmax(0, 180px) 1fr; gap: 12px; align-items: start; }
+.bubble.media img { width: 100%; height: auto; border-radius: 10px; border: 1px solid var(--line); display: block; }
+.bubble.media .info { display: flex; flex-direction: column; gap: 8px; min-width: 0; font-size: 13.5px; }
+.bubble.media .kind { font-family: var(--f-display); font-weight: 700; color: var(--navy); }
+.bubble.media .kv { background: var(--chip); border-radius: 10px; padding: 6px 10px; display: flex; flex-direction: column; gap: 4px; }
+.bubble.media .kv span { font-size: 12px; color: var(--sub); }
+.bubble.media .kv code { font-family: var(--f-body); font-size: 13.5px; word-break: break-all; color: var(--ink); }
+.row { display: inline-flex; gap: 8px; align-items: center; flex-wrap: wrap; }
 .mark { background: var(--todo-bg); color: var(--todo-ink); border-radius: 4px; padding: 0 3px; }
-button.copy { appearance: none; border: 0; cursor: pointer; background: var(--navy); color: var(--paper); font-family: var(--f-display); font-weight: 700; font-size: 13px; border-radius: 999px; padding: 6px 14px; }
-button.copy:focus-visible, .tabs button:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+button.copy, a.copy { appearance: none; border: 0; cursor: pointer; background: var(--navy); color: var(--paper); font-family: var(--f-display); font-weight: 700; font-size: 13px; border-radius: 999px; padding: 6px 14px; text-decoration: none; display: inline-block; line-height: 1.6; }
+button.copy.ghost, a.copy.ghost { background: transparent; color: var(--navy); border: 1.5px solid var(--navy); padding: 4.5px 12.5px; }
+button.copy.sm { font-size: 12px; padding: 3px 10px; align-self: flex-start; }
+button.copy:focus-visible, a.copy:focus-visible, .tabs button:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+button.copy.save { display: none; }
+body.can-save button.copy.save { display: inline-block; }
 .done { font-size: 12px; color: var(--ok); }
 .done.warn { color: var(--todo-ink); }
-.img { display: flex; gap: 12px; align-items: center; }
-.img img { width: 140px; max-width: 40%; height: auto; border-radius: 8px; border: 1px solid var(--line); }
-.img span { font-size: 13px; color: var(--sub); }
 .memo { font-size: 13px; background: var(--chip); border-radius: 10px; padding: 8px 12px; }
 .memo b { font-family: var(--f-display); color: var(--lav); margin-right: 6px; }
-@media (max-width: 480px) { .msg { grid-template-columns: 10px 1fr; gap: 10px; } .rail i { width: 10px; height: 10px; } .rail::before { left: 4px; } }
+@media (max-width: 480px) {
+  .msg { grid-template-columns: 10px 1fr; gap: 10px; } .rail i { width: 10px; height: 10px; } .rail::before { left: 4px; }
+  .bubble.media { grid-template-columns: 1fr; } .bubble.media img { max-width: 240px; }
+  .tabs { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin-inline: -16px; padding-inline: 16px; }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tabs button { flex: none; white-space: nowrap; }
+}
 </style>
 
 <div class="wrap">
   <header>
     <div class="eyebrow">ローンチ配信台本</div>
     <h1>30日ワーク 第1期「一緒に始める30日」</h1>
-    <p>LINEに貼る文面を、吹き出しごとにコピーできます。教育 10/10〜、発売 10/16 20:00、第1期の締め切り 10/21 23:59、第1期スタート 10/22。黄色の【】は差し替える所です。</p>
+    <p>LINEに貼る文面を、吹き出しごとにコピーできます。教育 10/10〜、発売 10/16 20:00、第1期の締め切り 10/21 23:59、第1期スタート 10/22。黄色の【】（URL・IDなど）は差し替える所です。</p>
   </header>
+
+  <section class="notice" aria-label="予約の前に">
+    <h2>予約の前に、3つだけ</h2>
+    <ul>
+      <li><b>通数</b>：全部送ると、10月は「友だち数×12通」。無料プラン（200通）なら友だち16人まで、ライト（5,000通）なら416人まで。足りないときは、下の「節約版（必須だけ）」で表示される6回だけを送ると「友だち数×6通」です</li>
+      <li><b>吹き出し</b>：1回の配信は3つまで。画像・リッチメッセージも1つに数えます（この台本は、すべて3つ以内）</li>
+      <li><b>テスト配信</b>：自分のスマホに送って、通知に出る1行目と、自動応答（「診断」「まとめ」「タイプ25」）を確かめてください</li>
+    </ul>
+  </section>
 
   <nav class="tabs" id="tabs" aria-label="表示の切り替え"></nav>
 
@@ -104,53 +139,105 @@ button.copy:focus-visible, .tabs button:focus-visible { outline: 3px solid var(-
 
 <script>
 const DATA = /*__DATA__*/null;
-const PC = { '特典': 'var(--gold)', 'はじめ': 'var(--p-misc)', '教育': 'var(--p-edu)', '予告': 'var(--p-edu)', '販売': 'var(--p-sell)', '締め切り': 'var(--p-close)', 'お礼': 'var(--p-misc)', '第1期': 'var(--p-c)', 'X': 'var(--navy)' };
-const VIEWS = [['all', 'すべて'], ['launch', 'LINE（ローンチ）'], ['c', 'LINE（第1期の伴走）'], ['cards', '第1期特典（タイプ別）'], ['x', 'X投稿']];
-let view = 'all';
-try { view = localStorage.getItem('launch-view') || 'all'; } catch (e) {}
+const PC = { '特典': 'var(--gold)', 'はじめ': 'var(--p-misc)', '教育': 'var(--p-edu)', '予告': 'var(--p-edu)', '販売': 'var(--p-sell)', '締め切り': 'var(--p-close)', 'お礼': 'var(--p-misc)', '第1期': 'var(--p-c)', '自動応答': 'var(--p-auto)', 'X': 'var(--navy)' };
+const VIEWS = [['all', 'すべて'], ['launch', 'LINE（ローンチ）'], ['auto', '自動応答'], ['c', 'LINE（第1期の伴走）'], ['cards', '第1期特典（タイプ別）'], ['x', 'X投稿']];
+const TIER = { '必須': ['must', '必須'], 'できれば': ['opt', 'できれば'], '自動': ['auto', '自動（通数に数えない）'] };
+let view = 'all', lean = false;
+try { view = localStorage.getItem('launch-view') || 'all'; lean = localStorage.getItem('launch-lean') === '1'; } catch (e) {}
+if (!VIEWS.some(v => v[0] === view)) view = 'all';
 
 function esc(s) { return String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])); }
-function hl(s) { return esc(s).replace(/【[^】]*】/g, m => `<span class="mark">${m}</span>`); }
+function hl(s) { return esc(s).replace(/【[^】]*(URL|ID|要確認)[^】]*】/g, m => `<span class="mark">${m}</span>`); }
+function say(el, t, warn) { if (!el) return; el.textContent = t; el.classList.toggle('warn', !!warn); }
+function tierChip(t) { const v = TIER[t]; return v ? `<span class="tier ${v[0]}">${v[1]}</span>` : ''; }
 
-async function copy(text, el) {
-  try { await navigator.clipboard.writeText(text); el.textContent = 'コピーしました'; el.classList.remove('warn'); }
+async function copyText(text, msgEl, selectEl) {
+  try { await navigator.clipboard.writeText(text); say(msgEl, 'コピーしました'); }
   catch (e) {
-    const pre = el.closest('.bubble').querySelector('pre');
-    const r = document.createRange(); r.selectNodeContents(pre);
-    const s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
-    let ok = false; try { ok = document.execCommand('copy'); } catch (_) {}
-    el.textContent = ok ? 'コピーしました' : '選択しました。Ctrl+C（⌘+C）でコピー';
-    el.classList.toggle('warn', !ok);
+    let ok = false;
+    if (selectEl) {
+      const r = document.createRange(); r.selectNodeContents(selectEl);
+      const s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+      try { ok = document.execCommand('copy'); } catch (_) {}
+    }
+    say(msgEl, ok ? 'コピーしました' : '選択しました。Ctrl+C（⌘+C）でコピー', !ok);
   }
 }
 
-function bubbleEl(text, label) {
+// 画像の保存は、台本ページの「downloads」の機能を使う（使えない画面ではボタンを出さない）
+let DL = null;
+(async () => {
+  try { DL = window.claude && window.claude.use ? await window.claude.use('downloads') : null; } catch (e) { DL = null; }
+  document.body.classList.toggle('can-save', !!DL);
+})();
+
+async function saveImage(file, msgEl) {
+  if (!DL) { say(msgEl, '保存できませんでした。チャットで送った画像ファイルを使ってください', true); return; }
+  try {
+    const r = await fetch('images/' + file);
+    if (!r.ok) throw new Error('load');
+    await DL.save({ filename: file, data: await r.blob() });
+    say(msgEl, '保存しました');
+  } catch (e) {
+    const c = e && e.code;
+    if (c === 'declined') say(msgEl, '保存をやめました');
+    else if (c === 'rate_limited') say(msgEl, '少し待ってから、もう一度押してください', true);
+    else say(msgEl, '保存できませんでした。チャットで送った画像ファイルを使ってください', true);
+  }
+}
+
+async function copyImage(file, msgEl) {
+  try {
+    if (!(window.ClipboardItem && navigator.clipboard && navigator.clipboard.write)) throw new Error('no image clipboard');
+    const blob = fetch('images/' + file).then(r => { if (!r.ok) throw new Error('load'); return r.blob(); })
+      .then(b => b.type === 'image/png' ? b : new Blob([b], { type: 'image/png' }));
+    await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
+    say(msgEl, 'コピーしました');
+  } catch (e) {
+    say(msgEl, 'コピーできませんでした。「画像を保存」か、チャットで送った画像ファイルを使ってください', true);
+  }
+}
+
+function textBubble(text, label) {
   const b = document.createElement('div');
   b.className = 'bubble';
-  b.innerHTML = `<pre>${hl(text)}</pre><div class="bar"><span class="n">${esc(label)}・${text.length}字</span><span class="row"><span class="done" role="status"></span> <button class="copy" type="button">コピー</button></span></div>`;
-  b.querySelector('button').addEventListener('click', () => copy(text, b.querySelector('.done')));
+  b.innerHTML = `<pre>${hl(text)}</pre><div class="bar"><span class="n">${esc(label)}</span><span class="row"><span class="done" role="status"></span> <button class="copy" type="button">コピー</button></span></div>`;
+  b.querySelector('button').addEventListener('click', () => copyText(text, b.querySelector('.done'), b.querySelector('pre')));
   return b;
 }
 
-function msgEl(m) {
+function mediaBubble(m, label) {
+  const b = document.createElement('div');
+  b.className = 'bubble media';
+  const kv = (k, v) => `<div class="kv"><span>${esc(k)}</span><code>${hl(v)}</code><button class="copy sm ghost" type="button" data-v="${esc(v)}">コピー</button></div>`;
+  b.innerHTML = `<img src="images/${esc(m.img)}" alt="${esc(m.alt || m.img)}" loading="lazy">
+    <div class="info"><div class="kind">${esc(label)}：${m.rich ? 'リッチメッセージ' : '画像'}</div>
+    ${m.rich ? kv('タイトル（通知とトーク一覧に出る文字）', m.alt) + kv('タップしたときに開くURL', m.link) : ''}
+    <div class="row"><button class="copy save" type="button" data-save>画像を保存</button><button class="copy ghost" type="button" data-img>画像をコピー</button></div>
+    <span class="done" role="status"></span></div>`;
+  const st = b.querySelector('.done');
+  b.querySelector('[data-img]').addEventListener('click', () => copyImage(m.img, st));
+  b.querySelector('[data-save]').addEventListener('click', () => saveImage(m.img, st));
+  b.querySelectorAll('[data-v]').forEach(btn => btn.addEventListener('click', () => copyText(btn.dataset.v, st, btn.previousElementSibling)));
+  return b;
+}
+
+function msgEl(m, opts = {}) {
   const wrap = document.createElement('article');
   wrap.className = 'msg';
   wrap.id = 'm-' + m.id;
   wrap.style.setProperty('--pc', PC[m.phase] || 'var(--navy)');
   const card = document.createElement('div');
   card.className = 'card';
-  card.innerHTML = `<div class="head"><span class="badge">${esc(m.id)}</span><h3>${esc(m.title)}</h3></div>
-    <div class="meta"><span>いつ <b>${esc(m.when)}</b></span><span>どこ <b>${esc(m.where)}</b></span></div>
+  card.innerHTML = `<div class="head"><span class="badge">${esc(m.id)}</span><h3>${esc(m.title)}</h3>${tierChip(m.tier)}</div>
+    <div class="meta"><span>${esc(opts.whenLabel || 'いつ')} <b>${esc(m.when)}</b></span><span>どこ <b>${esc(m.where)}</b></span></div>
     <div class="why">${esc(m.purpose)}</div>`;
-  if (m.image) {
-    const d = document.createElement('div');
-    d.className = 'img';
-    d.innerHTML = `<img src="images/${esc(m.image)}" alt="${esc(m.image)}" loading="lazy"><span>画像：${esc(m.image)}<br>（noteの貼り付けキットと同じ画像）</span>`;
-    card.appendChild(d);
-  }
   const bs = document.createElement('div');
   bs.className = 'bubbles';
-  m.bubbles.forEach((t, i) => bs.appendChild(bubbleEl(t, '吹き出し' + (i + 1))));
+  m.bubbles.forEach((t, i) => {
+    const label = opts.label ? opts.label(i) : '吹き出し' + (i + 1);
+    bs.appendChild(typeof t === 'string' ? textBubble(t, `${label}・${opts.count ? opts.count(t) : t.length + '字'}`) : mediaBubble(t, label));
+  });
   card.appendChild(bs);
   if (m.memo) {
     const memo = document.createElement('div');
@@ -164,11 +251,19 @@ function msgEl(m) {
 }
 
 function xEl(p, i) {
-  return msgEl({ id: 'X' + (i + 1), title: p.kind, when: p.when, where: 'X（旧Twitter）', phase: 'X', purpose: 'LINEへの登録と、発売・締め切りのお知らせ', bubbles: [p.text], image: p.image, memo: '' });
+  const bubbles = [p.text].concat(p.image ? [{ img: p.image }] : []);
+  return msgEl({ id: 'X' + (i + 1), title: p.kind, when: p.when, where: 'X（旧Twitter）', phase: 'X', purpose: '発売まではLINE（診断）へ、発売からはnoteへ', bubbles, memo: '' },
+    { label: i => i === 0 ? '投稿' : '添付', count: () => `Xの文字数 ${p.len}/280` });
+}
+
+function autoEl(a) {
+  return msgEl({ id: a.id, title: a.title, when: a.when, where: `応答メッセージ（キーワード「${a.key}」）`, phase: '自動応答', tier: '自動', purpose: a.purpose, bubbles: a.bubbles, memo: a.memo },
+    { whenLabel: '期間' });
 }
 
 function cardEl(c) {
-  return msgEl({ id: c.key, title: c.title, when: 'キーワード：' + c.keys.join('、'), where: 'LINE公式の応答メッセージ', phase: '特典', purpose: '第1期の人が「' + c.keys[0] + '」と送ってきたときに自動で返す', bubbles: [c.text], image: null, memo: '' });
+  return msgEl({ id: c.key, title: c.title, when: c.keys.join('、'), where: 'LINE公式の応答メッセージ', phase: '特典', tier: '自動', purpose: '第1期の人が「' + c.keys[0] + '」と送ってきたときに自動で返す', bubbles: [c.text], memo: '' },
+    { whenLabel: 'キーワード' });
 }
 
 function render() {
@@ -180,17 +275,26 @@ function render() {
     b.addEventListener('click', () => { view = k; try { localStorage.setItem('launch-view', k); } catch (e) {} render(); });
     tabs.appendChild(b);
   });
-  const line = DATA.line.filter(m => view === 'all' || (view === 'launch' && m.phase !== '第1期') || (view === 'c' && m.phase === '第1期'));
+  const lb = document.createElement('button');
+  lb.type = 'button'; lb.className = 'lean'; lb.textContent = '節約版（必須だけ）'; lb.setAttribute('aria-pressed', String(lean));
+  lb.addEventListener('click', () => { lean = !lean; try { localStorage.setItem('launch-lean', lean ? '1' : '0'); } catch (e) {} render(); });
+  tabs.appendChild(lb);
+
+  const line = DATA.line.filter(m => (view === 'all' || (view === 'launch' && m.phase !== '第1期') || (view === 'c' && m.phase === '第1期'))
+    && !(lean && m.tier === 'できれば'));
+  const as = (view === 'all' || view === 'auto') ? DATA.auto : [];
   const xs = (view === 'all' || view === 'x') ? DATA.x : [];
   const cs = (view === 'all' || view === 'cards') ? DATA.cards : [];
   const ov = document.getElementById('overview');
-  const rows = line.map(m => `<tr><td class="id" style="color:${PC[m.phase]}">${esc(m.id)}</td><td>${esc(m.when)}</td><td><a href="#m-${esc(m.id)}">${esc(m.title)}</a></td><td>${esc(m.where)}</td></tr>`)
-    .concat(cs.map(c => `<tr><td class="id" style="color:var(--gold)">${esc(c.key)}</td><td>自動応答</td><td><a href="#m-${esc(c.key)}">${esc(c.title)}</a></td><td>LINE</td></tr>`))
-    .concat(xs.map((p, i) => `<tr><td class="id">X${i + 1}</td><td>${esc(p.when)}</td><td><a href="#m-X${i + 1}">${esc(p.kind)}</a></td><td>X</td></tr>`)).join('');
-  ov.innerHTML = `<table><thead><tr><th>ID</th><th>いつ</th><th>内容</th><th>どこ</th></tr></thead><tbody>${rows}</tbody></table>`;
+  const rows = line.map(m => `<tr><td class="id" style="color:${PC[m.phase]}">${esc(m.id)}</td><td>${esc(m.when)}</td><td><a href="#m-${esc(m.id)}">${esc(m.title)}</a></td><td>${esc(m.where)}</td><td>${tierChip(m.tier)}</td></tr>`)
+    .concat(as.map(a => `<tr><td class="id" style="color:var(--p-auto)">${esc(a.id)}</td><td>${esc(a.when)}</td><td><a href="#m-${esc(a.id)}">${esc(a.title)}</a></td><td>キーワード「${esc(a.key)}」</td><td>${tierChip('自動')}</td></tr>`))
+    .concat(cs.map(c => `<tr><td class="id" style="color:var(--gold)">${esc(c.key)}</td><td>10/16 20:00〜</td><td><a href="#m-${esc(c.key)}">${esc(c.title)}</a></td><td>キーワード「${esc(c.key)}」ほか</td><td>${tierChip('自動')}</td></tr>`))
+    .concat(xs.map((p, i) => `<tr><td class="id">X${i + 1}</td><td>${esc(p.when)}</td><td><a href="#m-X${i + 1}">${esc(p.kind)}</a></td><td>X</td><td></td></tr>`)).join('');
+  ov.innerHTML = `<table><thead><tr><th>ID</th><th>いつ</th><th>内容</th><th>どこ</th><th>区分</th></tr></thead><tbody>${rows}</tbody></table>`;
   const tl = document.getElementById('tl');
   tl.innerHTML = '';
   line.forEach(m => tl.appendChild(msgEl(m)));
+  as.forEach(a => tl.appendChild(autoEl(a)));
   cs.forEach(c => tl.appendChild(cardEl(c)));
   xs.forEach((p, i) => tl.appendChild(xEl(p, i)));
 }
