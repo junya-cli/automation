@@ -88,6 +88,7 @@ figcaption { font-size: 13px; color: var(--sub); margin-top: 6px; }
 .paywall::before, .paywall::after { content: ""; flex: 1; border-top: 2px dashed var(--gold); }
 .imgs { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; }
 .imgs .no { font-family: var(--f-display); font-weight: 700; color: var(--navy); }
+.imgs figure { display: flex; flex-direction: column; gap: 6px; }
 .check { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
 .check label { display: grid; grid-template-columns: 22px 1fr; gap: 10px; align-items: start; cursor: pointer; }
 .check input { width: 18px; height: 18px; margin-top: 5px; accent-color: var(--ok); }
@@ -107,7 +108,7 @@ figcaption { font-size: 13px; color: var(--sub); margin-top: 6px; }
     <li><span><b>タイトル</b>を選んでコピーし、noteのタイトル欄に貼る。<b>見出し画像</b>を設定する。</span></li>
     <li><span><b>本文（無料部分）</b>の「本文をコピー」を押し、noteの本文欄に貼る。見出し・太字・箇条書きはそのまま入ります。</span></li>
     <li><span>冒頭の6段落を選んで、noteの<b>中央寄せ</b>にする（貼り付けで中央寄せが外れた場合）。</span></li>
-    <li><span>本文中の<b>【画像①〜⑤】</b>の行を、下の画像に差し替える（＋ボタン →「画像」）。差し替えたら【】の行は消す。</span></li>
+    <li><span>本文中の<b>【画像①〜⑤】</b>の行に、下の「画像をコピー」で画像を貼る（または＋ボタン →「画像」）。入れたら【】の行は消す。</span></li>
     <li><span>本文の最後（出典の下）に<b>有料ライン</b>を置き、その下に<b>有料エリア</b>をコピーして貼る。PDFを添付する。</span></li>
     <li><span><b>【要確認】</b>の行を直すか消してから、価格を決めて公開する。最後に「公開前チェック」を確認。</span></li>
   </ol>
@@ -123,7 +124,8 @@ figcaption { font-size: 13px; color: var(--sub); margin-top: 6px; }
 
   <section class="card" id="midashi">
     <h2>見出し画像 <small>1280×670</small></h2>
-    <figure><img src="images/00_midashi.png" alt="見出し画像：毒親育ちのお金の不安がなくなる小さな習慣（アオのイラストつき）" width="1280" height="670"><figcaption>画像を長押し（パソコンは右クリック）で保存して、noteの「見出し画像」に設定してください。</figcaption></figure>
+    <figure><img src="images/00_midashi.png" alt="見出し画像：毒親育ちのお金の不安がなくなる小さな習慣（アオのイラストつき）" width="1280" height="670"></figure>
+    <p class="hint">見出し画像は、ファイルを選んで設定する必要があります。画像ファイルは、Claudeとのチャットに送ってあります（ファイルのカードから保存できます）。</p>
   </section>
 
   <section class="card" id="free">
@@ -143,7 +145,7 @@ figcaption { font-size: 13px; color: var(--sub); margin-top: 6px; }
   <section class="card" id="images">
     <h2>画像 <small>本文の【画像○】の位置に入れる</small></h2>
     <div class="imgs" id="imgs"></div>
-    <div class="hint">画像は長押し（パソコンは右クリック）で保存できます。</div>
+    <div class="hint">「画像をコピー」を押して、noteの本文の【画像○】の行に貼り付けてください（パソコンはCtrl+V、Macは⌘+V）。貼れない場合は、Claudeとのチャットに送った画像ファイルを保存して、noteの＋ボタン→「画像」から入れてください。</div>
   </section>
 
   <section class="card" id="check">
@@ -209,6 +211,18 @@ async function copyText(text, msgEl) {
   catch (e) { say(msgEl, '文字を長押し（右クリック）してコピーしてください', true); }
 }
 
+async function copyImage(file, msgEl) {
+  try {
+    if (!(window.ClipboardItem && navigator.clipboard && navigator.clipboard.write)) throw new Error('no image clipboard');
+    const blob = fetch('images/' + file).then(r => { if (!r.ok) throw new Error('load'); return r.blob(); })
+      .then(b => b.type === 'image/png' ? b : new Blob([b], { type: 'image/png' }));
+    await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
+    say(msgEl, 'コピーしました。noteの本文に貼り付けてください。');
+  } catch (e) {
+    say(msgEl, 'この画面ではコピーできませんでした。チャットに送った画像ファイルを使ってください。', true);
+  }
+}
+
 function say(el, t, warn) { if (!el) return; el.textContent = t; el.classList.toggle('warn', !!warn); }
 
 function init() {
@@ -237,7 +251,8 @@ function init() {
   const imgs = document.getElementById('imgs');
   DATA.images.forEach(([no, file, where]) => {
     const f = document.createElement('figure');
-    f.innerHTML = `<img src="images/${file}" alt="${esc(no)} ${esc(where)}" loading="lazy"><figcaption><span class="no">${esc(no)}</span>　${esc(where)}<br><span class="hint">${esc(file)}</span></figcaption>`;
+    f.innerHTML = `<img src="images/${file}" alt="${esc(no)} ${esc(where)}" loading="lazy"><figcaption><span class="no">${esc(no)}</span>　${esc(where)}<br><span class="hint">${esc(file)}</span></figcaption><div class="row"><button class="copy sm" type="button">画像をコピー</button><span class="msg" role="status"></span></div>`;
+    f.querySelector('button').addEventListener('click', () => copyImage(file, f.querySelector('.msg')));
     imgs.appendChild(f);
   });
 
