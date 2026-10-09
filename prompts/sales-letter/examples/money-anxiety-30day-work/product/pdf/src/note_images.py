@@ -1,5 +1,5 @@
-"""note用の画像（見出し画像・5タイプ・3つのことば）のHTMLを作る: python3 src/note_images.py
-書き出し: node src/shoot.mjs build/note_figs.html ../../note/images kotoba:2:03_3kotoba.png
+"""note用の画像（見出し画像・5タイプ・3つのステップ）のHTMLを作る: python3 src/note_images.py
+書き出し: node src/shoot.mjs build/note_figs.html ../../note/images steps:2:03_3steps.png
 """
 import sys, pathlib
 sys.path.insert(0, str(pathlib.Path(__file__).parent))
@@ -83,23 +83,25 @@ def types():
             '<div class="foot"><div class="face"></div><div class="bb mg">2つ以上あてはまって、あたりまえ。<br>どのタイプかで、30日でやることが変わります。</div></div></div>')
 
 
-def kotoba():
-    ks = [('tag', '気持ちに「名前」', '見る前の5秒。「不安」「焦り」と、1つだけ', '#3A74C2', '#E8F0FB'),
-          ('camera', 'お金に「名前と写真」', '「わたしの非常口」と名づけて、写真を1枚', '#C2862A', '#FBF1DE'),
-          ('message-square-quote', '場面に「もしもの一文」', '「もし頼まれたら、『一晩考えるね』と言う」', '#2A8B7F', '#E1F3F0')]
-    rows = ''.join(f'<div class="row" style="padding:18px 20px"><span class="n mg" style="background:{c};width:40px;height:40px;font-size:22px">{i + 1}</span>'
-                   f'<span class="ci" style="background:{bg};color:{c};width:72px;height:72px">{icon(ic, style="width:40px;height:40px")}</span>'
-                   f'<div><div class="mg nm" style="font-size:28px;color:{c}">{h}</div><div class="q" style="font-size:18.5px;color:#34344A">{s}</div></div></div>'
-                   for i, (ic, h, s, c, bg) in enumerate(ks))
-    no = ''.join(f'<span class="mg"><b>しない</b>{x}</span>' for x in ('細かい家計簿', '我慢の節約', '言い聞かせ', '親を許すこと'))
-    return (f'<div class="shot card" id="kotoba"><div class="mg ttl">お金の不安をほどく、3つのことば</div>'
-            f'<div class="lead">どれも、5秒でできる小さな言葉です</div>{rows}<div class="no">{no}</div>'
-            '<div class="foot"><div class="face"></div><div class="bb mg">親の言葉で覚えた不安は、<br>あなたの言葉で、ほどけます。</div></div></div>')
+def steps():
+    st = [('tag', '感情に名前をつける', '言語化', '「罪悪感」', '#3A74C2', '#E8F0FB'),
+          ('search', 'なぜその感情が生じたのか考える', '解釈の特定', '「お金は、頑張った人だけが使っていい」', '#C2862A', '#FBF1DE'),
+          ('refresh-cw', '別の解釈を考えてみる', '当てはまらない例を1つ探す', '「頑張っていない日も、使っていい」', '#2A8B7F', '#E1F3F0')]
+    arrow = f'<div style="display:flex;justify-content:center;color:#C9B07A;margin:-4px 0 8px">{icon("chevron-down", sw=3, style="width:28px;height:28px")}</div>'
+    rows = arrow.join(f'<div class="row" style="padding:16px 20px;margin-bottom:8px;align-items:flex-start"><span class="n mg" style="background:{c};width:40px;height:40px;font-size:22px;margin-top:14px">{i + 1}</span>'
+                      f'<span class="ci" style="background:{bg};color:{c};width:68px;height:68px">{icon(ic, style="width:36px;height:36px")}</span>'
+                      f'<div><div class="mg nm" style="font-size:25px;color:{c}">{h}</div><div class="mg" style="font-size:15px;color:{c};opacity:.85;letter-spacing:.06em">{tag}</div>'
+                      f'<div class="q" style="font-size:17.5px;color:#34344A;margin-top:6px"><span class="mg" style="background:{bg};color:{c};border-radius:6px;padding:1px 8px;margin-right:6px;font-size:14px">例</span>{ex}</div></div></div>'
+                      for i, (ic, h, tag, ex, c, bg) in enumerate(st))
+    no = ''.join(f'<span class="mg"><b>しない</b>{x}</span>' for x in ('言い聞かせ', '我慢の節約', '細かい家計簿', '親を許すこと'))
+    return (f'<div class="shot card" id="steps"><div class="mg ttl">お金の不安を解く、3つのステップ</div>'
+            f'<div class="lead">例：1,200円のランチで、モヤっとしたとき</div>{rows}<div class="no">{no}</div>'
+            '<div class="foot"><div class="face"></div><div class="bb mg">前向きに唱えるのではなく、<br>「いつも本当にそう？」と探すだけ。</div></div></div>')
 
 
 def main():
     out = ROOT / 'build' / 'note_figs.html'
-    out.write_text(head() + eyecatch() + types() + kotoba() + '</body></html>', encoding='utf-8')
+    out.write_text(head() + eyecatch() + types() + steps() + '</body></html>', encoding='utf-8')
     print(out)
 
 
