@@ -9,7 +9,7 @@
 |---|---|
 | `note_body.html` | 本文（無料部分）。noteの本文欄に貼る |
 | `note_paid.html` | 有料エリア。有料ラインの下に貼る |
-| `images/00_midashi.png` | 見出し画像（1280×670） |
+| `images/00_midashi.png` | 見出し画像（1280×670・夜景版）。元は `product/pdf/src/thumb_night.py`（`python3 src/thumb_night.py && node src/shoot.mjs build/thumb_night.html ../../note/images thumb:2:00_midashi.png` で2倍で書き出し、1280×670に縮小） |
 | `images/02_5types.png` 〜 `06_plan.png` | 本文の【画像①〜⑤】に入れる画像 |
 | `kit.html` | 貼り付け用ページ（`make_kit.py` で作成） |
 | `make_kit.py` | 本文を直したら `python3 note/make_kit.py` で作り直す |
